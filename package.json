@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build--prod": "ng build -c production --base-href /realfreebird.github.io/",
+    "build--prod": "ng build -c production --base-href /realfreebird.github.io/ && copy /y .\\docs\\index.html .\\docs\\404.html",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

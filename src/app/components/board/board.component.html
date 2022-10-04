@@ -1,7 +1,7 @@
 <div class="center ">
 <br>
     <div class="center">
-        <button mat-stroked-button *ngFor="let w of words" [class.wordFound]="w.found">
+        <button mat-stroked-button *ngFor="let w of words" [class.wordFound]="w.found" (click)="speak(w.eng)">
             {{w.heb}}
             | 
             {{w.eng}} 

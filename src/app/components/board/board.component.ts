@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TtsService } from 'src/app/services/tts.service';
 
 interface Word {
   eng: string,
@@ -54,7 +55,7 @@ export class BoardComponent implements OnInit {
 
   cells: Array<Array<Cell>> = []
 
-  constructor() { (window as any).board = this; }
+  constructor(public TTS: TtsService) { (window as any).board = this; }
 
   ngOnInit(): void {
     this.init()
@@ -190,8 +191,17 @@ export class BoardComponent implements OnInit {
         this.markSolved(selCell);
         word.found = true;
       }
+
+      const gameOver = this.words.every(w => w.found);
+      if (gameOver) {
+        alert('yey!!! all found !!!')
+      }
+
     }, 0);
   }
 
+  speak(what: string) {
+    this.TTS.speak(what);
+  }
 
 }

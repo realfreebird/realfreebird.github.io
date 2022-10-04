@@ -1,8 +1,23 @@
-<table class="center FIXME-CENTER-VERT">
-    <tr *ngFor="let r of cells">
-        <td *ngFor="let c of r">
-            {{c.letter}}
-        </td>
-    </tr>
-</table>
+<div class="center ">
+<br>
+    <div class="center">
+        <button mat-stroked-button *ngFor="let w of words" [class.wordFound]="w.found">
+            {{w.heb}}
+            | 
+            {{w.eng}} 
+        </button>
+    </div>
+
+    <table class="center FIXME-CENTER-VERT">
+        <tr *ngFor="let r of cells">
+            <td *ngFor="let c of r" [class.cellSelected]="c.isSelected" [class.cellSolved]="c.isSolved" (click)="toggleCellSelection(c)">
+                <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
+                    {{c.letter}}
+                <!-- </button> -->
+            </td>
+        </tr>
+    </table>
+</div>
+
+
 <!-- {{cells | json}} -->

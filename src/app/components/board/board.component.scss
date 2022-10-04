@@ -1,4 +1,6 @@
-
+:host {
+    user-select: none;
+}
 
 table {
     border-collapse: collapse;
@@ -15,6 +17,22 @@ td {
     min-height: 20px;
     max-height: 20px;
 }
+
+td:hover {
+    background-color: rgba(173, 216, 230, 0.464);
+}
+
+td.cellSelected {
+    background-color: darkblue;
+    color: white;
+}
+
+td.cellSolved, .wordFound {
+    pointer-events: none;
+    background-color: darkgreen;
+    color: white;
+}
+
 
 .FIXME-CENTER-VERT {
 margin-top: 100px

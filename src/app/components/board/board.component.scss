@@ -30,9 +30,13 @@ td.cellSelected {
 
 td.cellSolved,
 .wordFound {
-  pointer-events: none;
+  // pointer-events: none;
   background-color: darkgreen;
   color: white;
+}
+
+.wordButton {
+  margin-left: 3px;
 }
 
 .gameOver td:not(.cellSolved) {

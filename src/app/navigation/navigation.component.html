@@ -3,12 +3,12 @@
   <!-- [opened]="(isHandset$ | async) === false" -->
   <mat-sidenav #drawer class="sidenav" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>תפריט</mat-toolbar>
     <mat-nav-list>
       <!-- TODO -->
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item href="#">חיות</a>
+      <a mat-list-item [disabled]="true" href="#">צבעים</a>
+      <a mat-list-item [disabled]="true" href="#">שונות</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

@@ -1,0 +1,284 @@
+ [
+        {
+            "eng": "animals",
+            "heb": "חיות",
+            "words": [
+                {
+                    "eng": "cat",
+                    "heb": "חתול"
+                },
+                {
+                    "eng": "cow",
+                    "heb": "פרה"
+                },
+                {
+                    "eng": "lion",
+                    "heb": "אריה"
+                },
+                {
+                    "eng": "ant",
+                    "heb": "נמלה"
+                },
+                {
+                    "eng": "bird",
+                    "heb": "ציפור"
+                },
+                {
+                    "eng": "bee",
+                    "heb": "דבורה"
+                },
+                {
+                    "eng": "duck",
+                    "heb": "ברווז"
+                },
+                {
+                    "eng": "goat",
+                    "heb": "עז"
+                },
+                {
+                    "eng": "dog",
+                    "heb": "כלב"
+                },
+                {
+                    "eng": "fish",
+                    "heb": "דג"
+                },
+                {
+                    "eng": "fox",
+                    "heb": "שועל"
+                },
+                {
+                    "eng": "monkey",
+                    "heb": "קוף"
+                },
+                {
+                    "eng": "pig",
+                    "heb": "חזיר"
+                },
+                {
+                    "eng": "wolf",
+                    "heb": "זאב"
+                },
+                {
+                    "eng": "pony",
+                    "heb": "פוני"
+                },
+                {
+                    "eng": "rat",
+                    "heb": "עכברוש"
+                },
+                {
+                    "eng": "snake",
+                    "heb": "נחש"
+                }
+            ]
+        },
+        {
+            "eng": "animals",
+            "heb": "שונות",
+            "words": [
+                {
+                    "eng": "אדום",
+                    "heb": "red"
+                },
+                {
+                    "eng": "כחול",
+                    "heb": "blue"
+                },
+                {
+                    "eng": "ורוד",
+                    "heb": "pink"
+                },
+                {
+                    "eng": "לבן",
+                    "heb": "white"
+                },
+                {
+                    "eng": "שחור",
+                    "heb": "black"
+                },
+                {
+                    "eng": "צהוב",
+                    "heb": "yellow"
+                },
+                {
+                    "eng": "gray",
+                    "heb": "אפור"
+                },
+                {
+                    "eng": "gold",
+                    "heb": "זהב"
+                }
+            ]
+        },
+        {
+            "eng": "animals",
+            "heb": "שונות",
+            "words": [
+                {
+                    "eng": "ball",
+                    "heb": "כדור"
+                },
+                {
+                    "eng": "bed",
+                    "heb": "מיטה"
+                },
+                {
+                    "eng": "big",
+                    "heb": "גדול"
+                },
+                {
+                    "eng": "book",
+                    "heb": "ספר"
+                },
+                {
+                    "eng": "box",
+                    "heb": "קופסא"
+                },
+                {
+                    "eng": "car",
+                    "heb": "מכונית"
+                },
+                {
+                    "eng": "cow",
+                    "heb": "פרה"
+                },
+                {
+                    "eng": "day",
+                    "heb": "יום"
+                },
+                {
+                    "eng": "fun",
+                    "heb": "כיף"
+                },
+                {
+                    "eng": "good",
+                    "heb": "טוב"
+                },
+                {
+                    "eng": "hat",
+                    "heb": "כובע"
+                },
+                {
+                    "eng": "here",
+                    "heb": "כאן"
+                },
+                {
+                    "eng": "home",
+                    "heb": "בית"
+                },
+                {
+                    "eng": "hot",
+                    "heb": "חם"
+                },
+                {
+                    "eng": "in",
+                    "heb": "בתוך"
+                },
+                {
+                    "eng": "look",
+                    "heb": "להתסכל"
+                },
+                {
+                    "eng": "man",
+                    "heb": "איש"
+                },
+                {
+                    "eng": "mom",
+                    "heb": "אמא"
+                },
+                {
+                    "eng": "my",
+                    "heb": "שלי"
+                },
+                {
+                    "eng": "no",
+                    "heb": "לא"
+                },
+                {
+                    "eng": "old",
+                    "heb": "ישן/זקן"
+                },
+                {
+                    "eng": "one",
+                    "heb": "אחד"
+                },
+                {
+                    "eng": "out",
+                    "heb": "בחוץ"
+                },
+                {
+                    "eng": "pet",
+                    "heb": "חיית מחמד"
+                },
+                {
+                    "eng": "play",
+                    "heb": "לשחק/לנגן"
+                },
+                {
+                    "eng": "red",
+                    "heb": "אדום"
+                },
+                {
+                    "eng": "ride",
+                    "heb": "לרכב"
+                },
+                {
+                    "eng": "run",
+                    "heb": "לרוץ"
+                },
+                {
+                    "eng": "she",
+                    "heb": "היא"
+                },
+                {
+                    "eng": "sit",
+                    "heb": "לשבת"
+                },
+                {
+                    "eng": "six",
+                    "heb": "שש"
+                },
+                {
+                    "eng": "stop",
+                    "heb": "עצור"
+                },
+                {
+                    "eng": "sun",
+                    "heb": "שמש"
+                },
+                {
+                    "eng": "ten",
+                    "heb": "עשר"
+                },
+                {
+                    "eng": "this",
+                    "heb": "זה"
+                },
+                {
+                    "eng": "to",
+                    "heb": "ל"
+                },
+                {
+                    "eng": "toy",
+                    "heb": "צעצוע"
+                },
+                {
+                    "eng": "two",
+                    "heb": "שתיים"
+                },
+                {
+                    "eng": "up",
+                    "heb": "למעלה"
+                },
+                {
+                    "eng": "yes",
+                    "heb": "כן"
+                },
+                {
+                    "eng": "you",
+                    "heb": "את/ה"
+                }
+            ]
+        }
+ ]

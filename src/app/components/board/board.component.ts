@@ -1,7 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TtsService } from 'src/app/services/tts.service';
+import { Word, WordsBankService } from 'src/app/services/words-bank.service';
 
-interface Word {
+async function sleep(ms: number) {
+  await Promise.resolve((resolve: any) => { setTimeout(() => { resolve(); }, ms); });
+}
+
+// animal list : https://gist.github.com/borlaym/585e2e09dd6abd9b0d0a
+interface WordZ extends Word {
   eng: string,
   heb: string,
   found: boolean,
@@ -39,9 +45,12 @@ interface RowCellSelection {
 })
 export class BoardComponent implements OnInit {
 
+  @Input() wordsPerGame = 5;
   @Input() rows = 8;
   @Input() cols = 8;
-  @Input() words: Word[] = [
+
+  @Input() bank = 'animals';
+  @Input() words: WordZ[] = [
     { eng: 'cat', heb: 'חתול' },
     { eng: 'dog', heb: 'כלב' },
     { eng: 'wolf', heb: 'זאב' },
@@ -55,16 +64,29 @@ export class BoardComponent implements OnInit {
 
   cells: Array<Array<Cell>> = []
 
-  constructor(public TTS: TtsService) { (window as any).board = this; }
+  isGameOver = false;
+
+  constructor(public wordsBankService: WordsBankService, public TTS: TtsService) { (window as any).board = this; }
 
   ngOnInit(): void {
     this.init()
   }
 
   init() {
+    this.getWords();
     this.createEmptyBoard();
     this.addWords2Board();
     this.fillTheBlanks();
+    this.resetFoundWords();
+  }
+
+  getWords() {
+    if (!this.bank) { return; }
+    this.words = this.wordsBankService.get(this.bank, this.wordsPerGame).map(w => ({ ...w, found: false }));
+  }
+
+  resetFoundWords() {
+    this.words.forEach(w => w.found = false);
   }
 
   fillTheBlanks() {
@@ -172,32 +194,69 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  toggleCellSelection(c: Cell) {
+  async toggleCellSelection(c: Cell) {
     if (c.isSolved) { return; /* nothing todo */ }
 
     c.isSelected = !c.isSelected;
     if (!c.isSelected) { return; }
 
+    this.speak(c.letter);
+
     // debugger;
     const selCell = this.getSelectionRange(c);
     if (!selCell) { return; }
     const selWord = this.getWordFromselection(selCell);
-    if (selWord?.length <= 1) { return; }
+    if (selWord?.length <= 1) {
+      return;
+    }
 
-    setTimeout(() => {
+    const word = this.words.find(w => w.eng === selWord);
+    if (word) {
+      this.markSolved(selCell);
+      word.found = true;
 
-      const word = this.words.find(w => w.eng === selWord);
-      if (word) {
-        this.markSolved(selCell);
-        word.found = true;
+      this.playSound('wordFound');
+      await sleep(500);
+
+      this.speak(word.eng);
+      // fimxe - make spear return promise
+      await sleep(500);
+    }
+
+    this.isGameOver = this.words.every(w => w.found);
+    if (this.isGameOver) {
+      setTimeout(() => {
+        this.playSound('gameOver');
+        setTimeout(() => {
+          alert('😀 😺 כל הכבוד ! 😀 😺')
+        }, 1200);
+      }, 500);
+    }
+  }
+
+  playSound(soundName: 'gameOver' | 'wordFound') {
+    let audio = document.querySelector('audio');
+    if (!audio) audio = document.createElement('audio');
+
+    let file = null;
+    if (audio.canPlayType('audio/mpeg')) {
+      switch (soundName) {
+        case "gameOver": file = 'cheering-and-clapping-crowd-1-5995.mp3'; break;
+        case "wordFound": file = 'success-1-6297.mp3'; break;
       }
-
-      const gameOver = this.words.every(w => w.found);
-      if (gameOver) {
-        alert('yey!!! all found !!!')
+      if (!file) {
+        console.error(`failed to play sound: ${file}`);
+        return;
       }
+      audio.setAttribute('src', 'assets/' + file);
+      // audio.setAttribute('src','assets/mixkit-ending-show-audience-clapping-478.wav');
+      audio.play();
+    }
+  }
 
-    }, 0);
+  restartGame() {
+    this.isGameOver = false;
+    this.init();
   }
 
   speak(what: string) {

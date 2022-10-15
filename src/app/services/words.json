@@ -74,32 +74,32 @@
             ]
         },
         {
-            "eng": "animals",
-            "heb": "שונות",
+            "eng": "colors",
+            "heb": "צבעים",
             "words": [
                 {
-                    "eng": "אדום",
-                    "heb": "red"
+                    "eng": "red",
+                    "heb": "אדום"
                 },
                 {
-                    "eng": "כחול",
-                    "heb": "blue"
+                    "eng": "blue",
+                    "heb": "כחול"
                 },
                 {
-                    "eng": "ורוד",
-                    "heb": "pink"
+                    "eng": "pink",
+                    "heb": "ורוד"
                 },
                 {
-                    "eng": "לבן",
-                    "heb": "white"
+                    "eng": "white",
+                    "heb": "לבן"
                 },
                 {
-                    "eng": "שחור",
-                    "heb": "black"
+                    "eng": "black",
+                    "heb": "שחור"
                 },
                 {
-                    "eng": "צהוב",
-                    "heb": "yellow"
+                    "eng": "yellow",
+                    "heb": "צהוב"
                 },
                 {
                     "eng": "gray",
@@ -112,7 +112,7 @@
             ]
         },
         {
-            "eng": "animals",
+            "eng": "misc",
             "heb": "שונות",
             "words": [
                 {

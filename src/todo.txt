@@ -1,0 +1,34 @@
+
+✓ 0. game-over state.
+1. game-over extravaganza
+✓ 1.5 restart game button.
+2. save/restore state to local storage
+3. word bank json. 
+    a. word bank + catagiries ?
+    b. limit words to 4-5 ?
+    c. 
+4. control difficulity 
+    a. hide eng in "buttons"
+    b. 
+✓ 5. "speak letters" on click
+6. selection: 
+    a. reset selection if new cell is not touching current selection 
+    b. adjust selection if new selection is in a different line
+7. intro page w/ animation
+8. add words by user / admin 
+9. more settings
+10. fix: last column is never occupied
+11. better words spacing.
+12. asset(selection.length <= maxWordLength )
+
+=====================
+zozi feedback 6/10/22
+1. save state to local storage to deal with accidental page refresh on mobile (drag down)
+✓ 2. remove hover css on letter (confusing)
+3. speak word slowly (config)
+✓ 4. words are too small
+
+
+
+eng-word-puzzle-for-zozi
+realfreebird.github.io

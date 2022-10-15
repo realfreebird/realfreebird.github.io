@@ -1,12 +1,22 @@
 <div class="center" [class.gameOver]="isGameOver">
-    <br>
-    <div class="center">
-        &nbsp;
-        <button mat-stroked-button *ngFor="let w of words" class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
+    <div class="words center">
+        <!-- &nbsp;
+        <button mat-stroked-button *ngFor="let w of words" class="wordButton" [class.wordFound]="w.found"
+            (click)="speak(w.eng)">
             {{w.heb}}
             |
             {{w.eng}}
-        </button>
+        </button> -->
+        <!-- rowHeight="2:1" -->
+        <mat-grid-list [cols]="3" [rowHeight]="44">
+            <mat-grid-tile *ngFor="let w of words">
+                <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
+                    {{w.heb}}
+                    |
+                    {{w.eng}}
+                </button>
+            </mat-grid-tile>
+        </mat-grid-list>
     </div>
 
     <table class="center FIXME-CENTER-VERT">
@@ -19,9 +29,6 @@
             </td>
         </tr>
     </table>
-
-    <br>
-    <button id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>
 </div>
 
 

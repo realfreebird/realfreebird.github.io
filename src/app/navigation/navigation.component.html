@@ -5,18 +5,20 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
     <mat-toolbar>תפריט</mat-toolbar>
     <mat-nav-list>
-      <!-- TODO -->
-      <a mat-list-item href="#">חיות</a>
+      <a mat-list-item *ngFor="let b of wordsBankService.getBanks()"
+        [routerLink]="['/home' , {bank: b.eng}]">{{b.heb}}</a>
+      <!-- <a mat-list-item [disabled]="true" href="#">צבעים</a>
       <a mat-list-item [disabled]="true" href="#">צבעים</a>
-      <a mat-list-item [disabled]="true" href="#">שונות</a>
+      <a mat-list-item [disabled]="true" href="#">שונות</a> -->
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+      <!-- not in use any more -->
+      <!-- <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+      </button> -->
       <span>פאזל מילים לזוהר</span>
     </mat-toolbar>
 

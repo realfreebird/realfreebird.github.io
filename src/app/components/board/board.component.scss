@@ -19,9 +19,10 @@ td {
   font-size: 1.5em;
 }
 
-td:hover {
-  background-color: rgba(173, 216, 230, 0.464);
-}
+// fixme: apply only on non-touch screen. it is confusing on a touch screen.
+// td:hover {
+//   background-color: rgba(173, 216, 230, 0.464);
+// }
 
 td.cellSelected {
   background-color: darkblue;
@@ -35,20 +36,22 @@ td.cellSolved,
   color: white;
 }
 
+.words {
+  margin: 16px 6px 0px 6px;
+}
+
 .wordButton {
+  width: 100%;
   margin-left: 3px;
+  font-size: 18px;
+
 }
 
 .gameOver td:not(.cellSolved) {
   color: lightgray
 }
 
-#new-game-button {
-  margin: 0 auto;
-  display: block;
-}
-
 
 .FIXME-CENTER-VERT {
-  margin-top: 50px
+  margin-top: 20px
 }

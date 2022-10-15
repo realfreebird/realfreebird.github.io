@@ -8,7 +8,7 @@
             {{w.eng}}
         </button> -->
         <!-- rowHeight="2:1" -->
-        <mat-grid-list [cols]="3" [rowHeight]="44">
+        <mat-grid-list [cols]="2" [rowHeight]="44">
             <mat-grid-tile *ngFor="let w of words">
                 <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
                     {{w.heb}}
@@ -21,7 +21,7 @@
 
     <table class="center FIXME-CENTER-VERT">
         <tr *ngFor="let r of cells">
-            <td *ngFor="let c of r" [class.cellSelected]="c.isSelected" [class.cellSolved]="c.isSolved"
+            <td *ngFor="let c of r" [class.cellSelected]="c.isSelected" [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed"
                 (click)="toggleCellSelection(c)">
                 <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
                 {{c.letter}}
@@ -33,3 +33,5 @@
 
 
 <!-- {{cells | json}} -->
+
+<!-- <button (click)="animateRestartGame()">debug</button> -->

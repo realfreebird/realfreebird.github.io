@@ -36,8 +36,49 @@ td.cellSolved,
   color: white;
 }
 
+td.isFlashed {
+  animation: rotation 1.5s linear, fadeIn 0.7s, colorTrans 1.5s linear;
+  background-color: transparent !important;
+  // background-color: yellow !important;
+  color: black;
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
+
+@keyframes colorTrans {
+  from {
+    color:rgba(245, 181, 122)
+  }
+
+  to {
+    color: black;
+  }
+}
+
+
+
 .words {
   margin: 16px 6px 0px 6px;
+  // max-width: 400px;
 }
 
 .wordButton {

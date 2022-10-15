@@ -17,6 +17,7 @@ export class Cell {
 
     isSelected = false;
     isSolved = false;
+    isFlashed = false;
 
     // constructor(private _letter: string, public r: number, public c: number, public _state_TODO?: any) { }
     constructor(public letter: string, public r: number, public c: number, public _state_TODO?: any) { }

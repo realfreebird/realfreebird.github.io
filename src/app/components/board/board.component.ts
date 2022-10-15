@@ -230,7 +230,7 @@ export class BoardComponent implements OnInit {
     alert(emojis[ie] + ' ' + a[ia] + emojis[ie])
   }
 
-  playSound(soundName: 'gameOver' | 'wordFound') {
+  playSound(soundName: 'gameStart' | 'gameOver' | 'wordFound') {
     let audio = document.querySelector('audio');
     if (!audio) audio = document.createElement('audio');
 
@@ -239,6 +239,7 @@ export class BoardComponent implements OnInit {
       switch (soundName) {
         case "gameOver": file = getRandomGameOverSound(); break;
         case "wordFound": file = 'success-1-6297.mp3'; break;
+        case 'gameStart': file = 'new-game/567250__iwanplays__dropping-rocks.wav';
       }
       if (!file) {
         console.error(`failed to play sound: ${file}`);
@@ -255,6 +256,8 @@ export class BoardComponent implements OnInit {
   }
 
   async animateRestartGame() {
+    this.playSound('gameStart')
+    await sleep(500);
     return new Promise(async resolve => {
       const f = [
         this.animateRestartGame1,

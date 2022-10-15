@@ -7,4 +7,4 @@
 <app-board [(state)]="state"></app-board>
 
 <br>
-<button id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>
+<button [disabled]="startingNewGame" id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>

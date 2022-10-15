@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { bind } from 'lodash';
 import { concatMap, delay, from, map, of, concat } from 'rxjs';
 import { TtsService, Word, WordsBankService } from 'src/app/services/services';
 import { BoardState, Cell, RowCellSelection } from './types';
@@ -130,9 +129,9 @@ export class BoardComponent implements OnInit {
     this.stateChange.emit(this.state);
   }
 
-  restartGame(bank: string) {
+  async restartGame(bank: string) {
     this.init(bank);
-    this.animateRestartGame();
+    await this.animateRestartGame();
   }
 
   getSelectionRange(cell: Cell): RowCellSelection {
@@ -255,60 +254,75 @@ export class BoardComponent implements OnInit {
     this.TTS.speak(what);
   }
 
-  animateRestartGame() {
-    const f = [
-      this.animateRestartGame1,
-      this.animateRestartGame2,
-      this.animateRestartGame3,
-    ].map(f => f.bind(this))
-    const i = Math.floor(Math.random() * f.length);
-    f[i]();
-  }
+  async animateRestartGame() {
+    return new Promise(async resolve => {
+      const f = [
+        this.animateRestartGame1,
+        this.animateRestartGame2,
+        this.animateRestartGame3,
+      ].map(f => f.bind(this))
+      const i = Math.floor(Math.random() * f.length);
+      await f[i]();
 
-  animateRestartGame1() {
-    const cells = this.state.cells.flatMap(x => x).filter(c => !(c.isSolved || c.isSelected));
-    const byLetter = _.chain(cells).groupBy(c => c.letter).value();
-    const keys = Object.keys(byLetter).sort()
-
-    const animate = from(keys).pipe(
-      map(k => byLetter[k]),
-      concatMap(item => of(item).pipe(delay(50))),
-    );
-
-    concat(
-      animate,
-      of(null).pipe(delay(2000)),
-    ).subscribe({
-      next: cells => { cells?.forEach(c => c.isFlashed = true) },
-      // error: error => console.log(error),
-      complete: () => cells.forEach(c => c.isFlashed = false)
+      setTimeout(() => {
+        this.resetIsFlashed();
+        resolve(null);
+      }, 2000);
     })
   }
 
-  animateRestartGame2() {
-    const cells = [];
-    for (let a of this.state.cells) {
-      for (let c of a) {
-        cells.push(c)
-      }
-    }
+  resetIsFlashed() {
+    const cells = this.state.cells.flatMap(x => x);
+    cells.forEach(c => c.isFlashed = false)
 
-    from(cells).pipe(
-      concatMap(item => of(item).pipe(delay(30))),
-    ).subscribe(x => x.isFlashed = true)
   }
 
-  animateRestartGame3() {
-    const cells = []
-    for (let c = 0; c < this.state.cols; c++) {
-      for (let r = 0; r < this.state.rows; r++) {
-        cells.push(this.state.cells[r][c]);
-      }
-    }
+  async animateRestartGame2() {
+    return new Promise(resolve => {
 
-    from(cells).pipe(
-      concatMap(item => of(item).pipe(delay(30))),
-    ).subscribe(x => x.isFlashed = true)
+      const cells = this.state.cells.flatMap(x => x).filter(c => !(c.isSolved || c.isSelected));
+      const byLetter = _.chain(cells).groupBy(c => c.letter).value();
+      const keys = Object.keys(byLetter).sort()
+
+      const animate = from(keys).pipe(
+        map(k => byLetter[k]),
+        concatMap(item => of(item).pipe(delay(50))),
+      );
+
+      animate.subscribe({
+        next: cells => { cells?.forEach(c => c.isFlashed = true) },
+        complete: () => resolve(null)
+      })
+    })
+  }
+
+  async animateRestartGame1() {
+    return new Promise(resolve => {
+
+      const cells = [];
+      for (let a of this.state.cells) {
+        for (let c of a) { cells.push(c) }
+      }
+
+      from(cells).pipe(
+        concatMap(item => of(item).pipe(delay(30))),
+      ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })
+    })
+  }
+
+  async animateRestartGame3() {
+    return new Promise(resolve => {
+      const cells = []
+      for (let c = 0; c < this.state.cols; c++) {
+        for (let r = 0; r < this.state.rows; r++) {
+          cells.push(this.state.cells[r][c]);
+        }
+      }
+
+      from(cells).pipe(
+        concatMap(item => of(item).pipe(delay(30))),
+      ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })
+    })
   }
 }
 

@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.storageService.set('state', this.state);
   }
 
+  startingNewGame = false;
   restartGame() {
     const params: MatDialogConfig = {
       panelClass: 'new-game-dialog-panel',
@@ -51,10 +52,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
       // height: '200px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
-    d.afterClosed().subscribe((bank: string) => {
+    d.afterClosed().subscribe(async (bank: string) => {
       if (bank) {
         this.bank = bank;
-        this.board.restartGame(this.bank);
+        this.startingNewGame = true;
+        await this.board.restartGame(this.bank);
+        this.startingNewGame = false;
       }
     })
   }

@@ -1,2 +1,10 @@
-    <app-board></app-board>
-    
+
+<div *ngIf="0" style="direction: ltr; margin: 2px; border: 1px dashed blue; background-color: lightgoldenrodyellow;">
+    state:
+    <pre>{{state | json}}</pre>
+</div>
+
+<app-board [(state)]="state"></app-board>
+
+<br>
+<button id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>

@@ -1,42 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TtsService } from 'src/app/services/tts.service';
 import { Word, WordsBankService } from 'src/app/services/words-bank.service';
+import { BoardState, Cell, RowCellSelection } from './types';
 
 async function sleep(ms: number) {
   await Promise.resolve((resolve: any) => { setTimeout(() => { resolve(); }, ms); });
 }
 
 // animal list : https://gist.github.com/borlaym/585e2e09dd6abd9b0d0a
-interface WordZ extends Word {
-  eng: string,
-  heb: string,
-  found: boolean,
-}
-
-class Cell {
-
-  get letter() { return this._letter; }
-  set letter(v) {
-    if (this._letter) { throw new Error(`cell ${this.r}.${this.c} alreay set to '${this._letter}'`); }
-    this._letter = v;
-  }
-
-  isSelected = false;
-  isSolved = false;
-
-  constructor(private _letter: string, public r: number, public c: number, public _state_TODO?: any) { }
-}
 
 function getRandomInt(max: number) {
   return Math.floor(Math.random() * max);
 }
 
-
-interface RowCellSelection {
-  row: number;
-  startCol: number;
-  endCol: number;
-}
 
 @Component({
   selector: 'app-board',
@@ -45,71 +21,40 @@ interface RowCellSelection {
 })
 export class BoardComponent implements OnInit {
 
-  @Input() wordsPerGame = 5;
-  @Input() rows = 8;
-  @Input() cols = 8;
+  @Input() state!: BoardState
+  @Output() stateChange = new EventEmitter<BoardState>();
 
-  @Input() bank = 'animals';
-  @Input() words: WordZ[] = [
-    { eng: 'cat', heb: 'חתול' },
-    { eng: 'dog', heb: 'כלב' },
-    { eng: 'wolf', heb: 'זאב' },
-    { eng: 'fox', heb: 'שועל' },
-    { eng: 'fish', heb: 'דג' },
-    { eng: 'monkey', heb: 'קוף' },
-    { eng: 'pig', heb: 'חזיר' }
-  ].map(x => ({ ...x, found: false }));
-  // @Input() words = ['cat'];
-  // @Input() words = ['12345678901']; // todo - throw error -or- ignore  when word is larger than board 
+  get wordsPerGame() { return this.state?.wordsPerGame; };
+  get rows() { return this.state?.rows; }
+  get cols() { return this.state?.cols; }
+  get bank() { return this.state?.bank; }
+  get words() { return this.state?.words; }
+  get cells() { return this.state?.cells; }
+  get isGameOver() { return this.state?.isGameOver; }
 
-  cells: Array<Array<Cell>> = []
-
-  isGameOver = false;
+  onMove = new EventEmitter<void>();
+  onGameOver = new EventEmitter<void>();
 
   constructor(public wordsBankService: WordsBankService, public TTS: TtsService) { (window as any).board = this; }
 
-  ngOnInit(): void {
-    this.init()
-  }
+  ngOnInit(): void { /* this.init() */ }
 
-  init() {
-    this.getWords();
-    this.createEmptyBoard();
-    this.addWords2Board();
-    this.fillTheBlanks();
-    this.resetFoundWords();
-  }
 
+  /** get n random words based on this.bank & this.wordsPerGame */
   getWords() {
     if (!this.bank) { return; }
-    this.words = this.wordsBankService.get(this.bank, this.wordsPerGame).map(w => ({ ...w, found: false }));
+    this.state.words = this.wordsBankService.get(this.bank, this.wordsPerGame).map(w => ({ ...w, found: false }));
   }
 
-  resetFoundWords() {
-    this.words.forEach(w => w.found = false);
-  }
-
-  fillTheBlanks() {
-    for (let r = 0; r < this.rows; r++) {
-      const row = this.cells[r];
-      for (let c = 0; c < this.cols; c++) {
-        if (row[c].letter) { continue; }
-        const l = String.fromCharCode(97 + getRandomInt(26))
-        row[c].letter = l
-      }
-    }
-  }
-
+  /** fill this.board with this.rows & this.cols empty cells */
   createEmptyBoard() {
     const a = [];
     for (let r = 0; r < this.rows; r++) {
       const row = [];
-      for (let c = 0; c < this.cols; c++) {
-        row.push(new Cell('', r, c))
-      }
+      for (let c = 0; c < this.cols; c++) { row.push(new Cell('', r, c)) }
       a.push(row)
     }
-    this.cells = a;
+    this.state.cells = a;
   }
 
   addWords2Board() {
@@ -154,6 +99,39 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  /** fill alll empty cells with random letters */
+  fillTheBlanks() {
+    for (let r = 0; r < this.rows; r++) {
+      const row = this.cells[r];
+      for (let c = 0; c < this.cols; c++) {
+        if (row[c].letter) { continue; }
+        const l = String.fromCharCode(97 + getRandomInt(26))
+        row[c].letter = l
+      }
+    }
+  }
+
+  resetFoundWords() {
+    this.words.forEach(w => w.found = false);
+  }
+
+  init(bank: string) {
+    this.state = new BoardState();
+    this.state.bank = bank ?? 'animals'; // FIXME !!!
+
+    this.getWords();
+    this.createEmptyBoard();
+    this.addWords2Board();
+    this.fillTheBlanks();
+    this.resetFoundWords();
+
+    this.stateChange.emit(this.state);
+  }
+
+  restartGame(bank: string) {
+    this.init(bank);
+  }
+
   getSelectionRange(cell: Cell): RowCellSelection {
 
     const row = this.cells[cell.r];
@@ -173,8 +151,6 @@ export class BoardComponent implements OnInit {
       endCol: to
     }
   }
-
-  // selCount = 0;
 
   getWordFromselection(cells: RowCellSelection) {
     const row = this.cells[cells.row];
@@ -198,6 +174,11 @@ export class BoardComponent implements OnInit {
     if (c.isSolved) { return; /* nothing todo */ }
 
     c.isSelected = !c.isSelected;
+
+    if (this.state) this.state = { ... this.state };
+    this.stateChange.emit(this.state);
+    this.onMove.emit();
+
     if (!c.isSelected) { return; }
 
     this.speak(c.letter);
@@ -214,6 +195,7 @@ export class BoardComponent implements OnInit {
     if (word) {
       this.markSolved(selCell);
       word.found = true;
+      this.stateChange.emit(this.state);
 
       this.playSound('wordFound');
       await sleep(500);
@@ -223,15 +205,27 @@ export class BoardComponent implements OnInit {
       await sleep(500);
     }
 
-    this.isGameOver = this.words.every(w => w.found);
+    this.state.isGameOver = this.words.every(w => w.found);
     if (this.isGameOver) {
+      this.stateChange.emit(this.state);
       setTimeout(() => {
         this.playSound('gameOver');
         setTimeout(() => {
-          alert('😀 😺 כל הכבוד ! 😀 😺')
+          this.alertRandomGameOverMessage();
         }, 1200);
       }, 500);
     }
+  }
+
+  alertRandomGameOverMessage() {
+    const a = [
+      'כל הכבוד !',
+      'הצלחת !'
+    ]
+    const emojis = ['😀', '😃', '😺', '😻']
+    const ia = getRandomInt(a.length - 1);
+    const ie = getRandomInt(emojis.length - 1);
+    alert(emojis[ie] + ' ' + a[ia] + emojis[ie])
   }
 
   playSound(soundName: 'gameOver' | 'wordFound') {
@@ -241,7 +235,7 @@ export class BoardComponent implements OnInit {
     let file = null;
     if (audio.canPlayType('audio/mpeg')) {
       switch (soundName) {
-        case "gameOver": file = 'cheering-and-clapping-crowd-1-5995.mp3'; break;
+        case "gameOver": file = getRandomGameOverSound(); break;
         case "wordFound": file = 'success-1-6297.mp3'; break;
       }
       if (!file) {
@@ -254,13 +248,25 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  restartGame() {
-    this.isGameOver = false;
-    this.init();
-  }
-
   speak(what: string) {
     this.TTS.speak(what);
   }
 
+}
+
+function getRandomGameOverSound(): any {
+  const a = [
+    // '323436__alivvie__wow1.mp3',
+    '428156__higgs01__yay.wav',
+    '448274__henryrichard__sfx-success.wav',
+    '456966__funwithsound__success-fanfare-trumpets.mp3',
+    '456968__funwithsound__success-resolution-video-game-fanfare-sound-effect.mp3',
+    '588391__funwithsound__music-dramatic-orchestral-ending-3.mp3',
+    '607207__fupicat__congrats.wav',
+    'cheering-and-clapping-crowd-1-5995.mp3',
+    // 'cheering-and-clapping-crowd-2-6029.mp3',
+  ]
+  const i = Math.floor(Math.random() * a.length);
+
+  return 'game-over/' + a[i];
 }

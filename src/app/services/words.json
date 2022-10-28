@@ -112,6 +112,56 @@
             ]
         },
         {
+            "eng": "numbersTo10",
+            "heb": "מספרים",
+            "words": [
+                {
+                    "eng": "zero",
+                    "heb": "0"
+                },
+                {
+                    "eng": "one",
+                    "heb": "1"
+                },
+                {
+                    "eng": "two",
+                    "heb": "2"
+                },
+                {
+                    "eng": "three",
+                    "heb": "3"
+                },
+                {
+                    "eng": "four",
+                    "heb": "4"
+                },
+                {
+                    "eng": "five",
+                    "heb": "5"
+                },
+                {
+                    "eng": "six",
+                    "heb": "6"
+                },
+                {
+                    "eng": "seven",
+                    "heb": "7"
+                },
+                {
+                    "eng": "eight",
+                    "heb": "8"
+                },
+                {
+                    "eng": "nine",
+                    "heb": "9"
+                },
+                {
+                    "eng": "ten",
+                    "heb": "10"
+                }
+            ]
+        },
+        {
             "eng": "misc",
             "heb": "שונות",
             "words": [

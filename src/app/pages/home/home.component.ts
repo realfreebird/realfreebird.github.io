@@ -48,15 +48,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   restartGame() {
     const params: MatDialogConfig = {
       panelClass: 'new-game-dialog-panel',
-      width: '300px',
-      // height: '200px'
+      width: '500px',
+      height: '400px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
-    d.afterClosed().subscribe(async (bank: string) => {
+    d.afterClosed().subscribe(async (v: {bank: string, isUpperCase: boolean}) => {
+      const bank = v?.bank;
       if (bank) {
         this.bank = bank;
         this.startingNewGame = true;
-        await this.board.restartGame(this.bank);
+        await this.board.restartGame(v);
         this.startingNewGame = false;
       }
     })

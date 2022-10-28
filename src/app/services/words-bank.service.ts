@@ -36,10 +36,12 @@ export class WordsBankService {
     return banks.map(b => ({ eng: b.eng, heb: b.heb }))
   }
 
-  get(bank: string, max: number): Word[] {
+  get(bank: string, max: number, isUpperCase: boolean): Word[] {
     const r = banks.find(x => x.eng === bank);
     if (r) {
-      const words = [...r.words];
+      let words0 = [...r.words];
+      const f = (s: string) => isUpperCase ? s.toUpperCase() : s.toLocaleLowerCase();
+      const words = words0.map(w => ({ ...w, eng: f(w.eng) }))
       return shuffle(words).splice(0, max);
     }
     return [];

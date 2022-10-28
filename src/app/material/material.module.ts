@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 
@@ -21,6 +22,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatListModule,
     MatDialogModule,
     MatGridListModule,
+    MatRadioModule,
   ]
 })
 export class MaterialModule { }

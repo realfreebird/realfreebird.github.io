@@ -8,6 +8,7 @@ import { WordsBankService } from 'src/app/services/services';
 })
 export class NewGameDialog implements OnInit {
 
+  lettersCase: 'upper' | 'lower' = 'lower'; 
   banks;
   cols = 2;
 

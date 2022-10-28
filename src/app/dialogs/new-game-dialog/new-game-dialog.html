@@ -10,18 +10,25 @@
         cols={{cols}}
     </div> -->
 
+    <mat-radio-group [(ngModel)]="lettersCase">
+        <mat-radio-button value="lower">abc | אותיות קטנות</mat-radio-button>
+        <mat-radio-button value="upper">ABC | אותיות גדולות</mat-radio-button>
+    </mat-radio-group>
+
+    <br>
+    
     <mat-grid-list [cols]="cols" rowHeight="2:1">
         <mat-grid-tile class="banks" *ngFor="let b of banks">
-            <button [tabindex]="-1" [mat-dialog-close]="b.eng" mat-stroked-button>
+            <button [tabindex]="-1" [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper'}" mat-stroked-button>
                 {{b.heb}}
             </button>
-
         </mat-grid-tile>
     </mat-grid-list>
 
+
 </mat-dialog-content>
 
-<div mat-dialog-actions align="center">
+<div class="sticky-modal-footer" mat-dialog-actions align="center">
 
     <button mat-button mat-dialog-close>ביטול</button>
     <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->

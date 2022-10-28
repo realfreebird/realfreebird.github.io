@@ -6,5 +6,36 @@ h2 {
 .banks button {
   font-size: 24px;
   margin: 0px 2px;
-  ;
+  min-width: 100px;
 }
+
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+mat-radio-button {
+  margin: 5px;
+}
+
+// FIXME - ugly !
+div.sticky-modal-footer {
+    position: relative;
+    bottom: -85px;
+}
+
+// .sticky-modal-footer {
+//   position: absolute;
+
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+
+//   border-top: 1px solid #efefef;
+//   background-color: white;
+
+//   padding: 10px 24px;
+// }

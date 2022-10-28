@@ -15,6 +15,11 @@ function getRandomInt(max: number) {
 }
 
 
+interface GameOptionsI {
+  bank: string;
+  isUpperCase: boolean;
+}
+
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -29,6 +34,7 @@ export class BoardComponent implements OnInit {
   get rows() { return this.state?.rows; }
   get cols() { return this.state?.cols; }
   get bank() { return this.state?.bank; }
+  get isUpperCase() { return this.state?.isUpperCase ?? false; }
   get words() { return this.state?.words; }
   get cells() { return this.state?.cells; }
   get isGameOver() { return this.state?.isGameOver; }
@@ -44,7 +50,7 @@ export class BoardComponent implements OnInit {
   /** get n random words based on this.bank & this.wordsPerGame */
   getWords() {
     if (!this.bank) { return; }
-    this.state.words = this.wordsBankService.get(this.bank, this.wordsPerGame).map(w => ({ ...w, found: false }));
+    this.state.words = this.wordsBankService.get(this.bank, this.wordsPerGame, this.isUpperCase).map(w => ({ ...w, found: false }));
   }
 
   /** fill this.board with this.rows & this.cols empty cells */
@@ -104,9 +110,10 @@ export class BoardComponent implements OnInit {
   fillTheBlanks() {
     for (let r = 0; r < this.rows; r++) {
       const row = this.cells[r];
+      const firstChartCode = this.isUpperCase ?  65 :  97;
       for (let c = 0; c < this.cols; c++) {
         if (row[c].letter) { continue; }
-        const l = String.fromCharCode(97 + getRandomInt(26))
+        const l = String.fromCharCode(firstChartCode + getRandomInt(26))
         row[c].letter = l
       }
     }
@@ -116,9 +123,10 @@ export class BoardComponent implements OnInit {
     this.words.forEach(w => w.found = false);
   }
 
-  init(bank: string) {
+  init(options: GameOptionsI) {
     this.state = new BoardState();
-    this.state.bank = bank ?? 'animals'; // FIXME !!!
+    this.state.bank = options.bank ?? 'animals'; // FIXME !!!
+    this.state.isUpperCase = options.isUpperCase;
 
     this.getWords();
     this.createEmptyBoard();
@@ -129,8 +137,8 @@ export class BoardComponent implements OnInit {
     this.stateChange.emit(this.state);
   }
 
-  async restartGame(bank: string) {
-    this.init(bank);
+  async restartGame(options: GameOptionsI) {
+    this.init(options);
     await this.animateRestartGame();
   }
 

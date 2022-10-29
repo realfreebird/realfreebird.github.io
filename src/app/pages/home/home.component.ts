@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BoardState } from 'src/app/components/board/types';
 import { BoardComponent } from 'src/app/components/components';
 import { NewGameDialog } from 'src/app/dialogs/dialogs';
+import { NavigationComponent } from 'src/app/navigation/navigation.component';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.saveState();
   }
 
-  constructor(public route: ActivatedRoute, private dialogs: MatDialog, public storageService: StorageService) {
+  constructor(public route: ActivatedRoute, private dialogs: MatDialog, public navCompo: NavigationComponent, public storageService: StorageService) {
     const state: BoardState | null = this.storageService.get('state')
     if (state) this.state = state;
   }
@@ -52,7 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       height: '400px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
-    d.afterClosed().subscribe(async (v: {bank: string, isUpperCase: boolean}) => {
+    d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean }) => {
       const bank = v?.bank;
       if (bank) {
         this.bank = bank;

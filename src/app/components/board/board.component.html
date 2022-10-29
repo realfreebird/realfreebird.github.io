@@ -12,8 +12,10 @@
             <mat-grid-tile *ngFor="let w of words">
                 <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
                     {{w.heb}}
-                    |
-                    {{w.eng}}
+                    <ng-container *ngIf="showEngWords">
+                        |
+                        {{w.eng}}
+                    </ng-container>
                 </button>
             </mat-grid-tile>
         </mat-grid-list>

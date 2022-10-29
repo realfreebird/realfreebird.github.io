@@ -20,6 +20,16 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button> -->
       <span>פאזל מילים לזוהר</span>
+      &nbsp;
+      <button style="min-width: 0; margin: 0" mat-stroked-button (click)="showEngWords = !showEngWords">
+        <mat-icon *ngIf="showEngWords">
+          visibility_off
+        </mat-icon>
+        <mat-icon *ngIf="!showEngWords">
+          visibility
+        </mat-icon>
+      </button>
+      
     </mat-toolbar>
 
     <!-- Add Content Here -->

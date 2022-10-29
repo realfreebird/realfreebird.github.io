@@ -39,6 +39,7 @@ export class BoardState {
         public cols = 8,
         public wordsPerGame: number = 5,
         public bank: string | null = null,
-        public isUpperCase = false) {
+        public isUpperCase = false,
+        public showEngWords = true) {
     }
 }

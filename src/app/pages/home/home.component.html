@@ -4,7 +4,7 @@
     <pre>{{state | json}}</pre>
 </div>
 
-<app-board [(state)]="state"></app-board>
+<app-board [(state)]="state" [showEngWords]="navCompo.showEngWords"></app-board>
 
 <br>
 <button [disabled]="startingNewGame" id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>

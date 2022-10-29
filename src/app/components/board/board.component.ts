@@ -30,6 +30,15 @@ export class BoardComponent implements OnInit {
   @Input() state!: BoardState
   @Output() stateChange = new EventEmitter<BoardState>();
 
+  @Input()
+  public get showEngWords() {
+    return this.state.showEngWords;
+  }
+  public set showEngWords(value) {
+    this.state.showEngWords = value;
+    this.stateChange.emit(this.state);
+  }
+
   get wordsPerGame() { return this.state?.wordsPerGame; };
   get rows() { return this.state?.rows; }
   get cols() { return this.state?.cols; }

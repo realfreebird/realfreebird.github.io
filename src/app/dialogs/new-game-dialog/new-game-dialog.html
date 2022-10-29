@@ -16,10 +16,11 @@
     </mat-radio-group>
 
     <br>
-    
+
     <mat-grid-list [cols]="cols" rowHeight="2:1">
-        <mat-grid-tile class="banks" *ngFor="let b of banks">
-            <button [tabindex]="-1" [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper'}" mat-stroked-button>
+        <mat-grid-tile class="banks" *ngFor="let b of banks; let i = index">
+            <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
+                [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper'}" mat-stroked-button>
                 {{b.heb}}
             </button>
         </mat-grid-tile>

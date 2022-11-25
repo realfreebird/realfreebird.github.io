@@ -20,7 +20,7 @@ export class Cell {
     isFlashed = false;
 
     // constructor(private _letter: string, public r: number, public c: number, public _state_TODO?: any) { }
-    constructor(public letter: string, public r: number, public c: number, public _state_TODO?: any) { }
+    constructor(public letter: string, public r: number, public c: number, public xtraClass: string) { }
 }
 
 export interface RowCellSelection {
@@ -34,12 +34,16 @@ export class BoardState {
     words: WordZ[] = [];
     cells: Array<Array<Cell>> = []
     isGameOver = false;
+    gameOverSoundFile!: string;
+    gameOverImg!: string;
     constructor(
         public rows = 8,
         public cols = 8,
         public wordsPerGame: number = 5,
         public bank: string | null = null,
         public isUpperCase = false,
-        public showEngWords = true) {
+        public showEngWords = true,
+        public randomColors = false
+    ) {
     }
 }

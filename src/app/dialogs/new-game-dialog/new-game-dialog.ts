@@ -8,7 +8,7 @@ import { WordsBankService } from 'src/app/services/services';
 })
 export class NewGameDialog implements OnInit {
 
-  lettersCase: 'upper' | 'lower' = 'lower'; 
+  lettersCase: 'upper' | 'lower' = 'lower';
   banks;
   cols = 2;
 
@@ -19,8 +19,8 @@ export class NewGameDialog implements OnInit {
       throw new Error('failed to fetch banks');
     }
 
-    for (let i = 5; i>0; i--) {
-      if (n % i === 0 ) {
+    for (let i = 5; i > 0; i--) {
+      if (n % i === 0) {
         this.cols = i; break;
       }
     }

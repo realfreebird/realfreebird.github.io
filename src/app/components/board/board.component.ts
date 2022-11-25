@@ -18,6 +18,9 @@ function getRandomInt(max: number) {
 interface GameOptionsI {
   bank: string;
   isUpperCase: boolean;
+  randomColors: boolean;
+  gameOverSoundFile: string;
+  gameOverImg: string;
 }
 
 @Component({
@@ -45,6 +48,7 @@ export class BoardComponent implements OnInit {
   get bank() { return this.state?.bank; }
   get isUpperCase() { return this.state?.isUpperCase ?? false; }
   get words() { return this.state?.words; }
+  get randomColors() { return this.state?.randomColors; }
   get cells() { return this.state?.cells; }
   get isGameOver() { return this.state?.isGameOver; }
 
@@ -65,9 +69,14 @@ export class BoardComponent implements OnInit {
   /** fill this.board with this.rows & this.cols empty cells */
   createEmptyBoard() {
     const a = [];
+    // let i = 0;
     for (let r = 0; r < this.rows; r++) {
       const row = [];
-      for (let c = 0; c < this.cols; c++) { row.push(new Cell('', r, c)) }
+      for (let c = 0; c < this.cols; c++) { 
+        
+        // const cssClass = this.randomColors ? 'cellColor' + ((i++)%5) : '';
+        const cssClass = this.randomColors ? 'cellColor' + Math.floor(Math.random() * 5) : '';
+        row.push(new Cell('', r, c, cssClass)) }
       a.push(row)
     }
     this.state.cells = a;
@@ -119,7 +128,7 @@ export class BoardComponent implements OnInit {
   fillTheBlanks() {
     for (let r = 0; r < this.rows; r++) {
       const row = this.cells[r];
-      const firstChartCode = this.isUpperCase ?  65 :  97;
+      const firstChartCode = this.isUpperCase ? 65 : 97;
       for (let c = 0; c < this.cols; c++) {
         if (row[c].letter) { continue; }
         const l = String.fromCharCode(firstChartCode + getRandomInt(26))
@@ -136,6 +145,9 @@ export class BoardComponent implements OnInit {
     this.state = new BoardState();
     this.state.bank = options.bank ?? 'animals'; // FIXME !!!
     this.state.isUpperCase = options.isUpperCase;
+    this.state.randomColors = options.randomColors;
+    this.state.gameOverSoundFile = options.gameOverSoundFile;
+    this.state.gameOverImg = options.gameOverImg;
 
     this.getWords();
     this.createEmptyBoard();
@@ -228,7 +240,8 @@ export class BoardComponent implements OnInit {
     if (this.isGameOver) {
       this.stateChange.emit(this.state);
       setTimeout(() => {
-        this.playSound('gameOver');
+        const sound = this.state.gameOverSoundFile ?? 'gameOver'
+        this.playSound(sound);
         setTimeout(() => {
           this.alertRandomGameOverMessage();
         }, 1200);
@@ -247,7 +260,7 @@ export class BoardComponent implements OnInit {
     alert(emojis[ie] + ' ' + a[ia] + emojis[ie])
   }
 
-  playSound(soundName: 'gameStart' | 'gameOver' | 'wordFound') {
+  playSound(soundName: 'gameStart' | 'gameOver' | 'wordFound' | string) {
     let audio = document.querySelector('audio');
     if (!audio) audio = document.createElement('audio');
 
@@ -256,7 +269,8 @@ export class BoardComponent implements OnInit {
       switch (soundName) {
         case "gameOver": file = getRandomGameOverSound(); break;
         case "wordFound": file = 'success-1-6297.mp3'; break;
-        case 'gameStart': file = 'new-game/567250__iwanplays__dropping-rocks.wav';
+        case 'gameStart': file = 'new-game/567250__iwanplays__dropping-rocks.wav'; break;
+        default: file = soundName
       }
       if (!file) {
         console.error(`failed to play sound: ${file}`);

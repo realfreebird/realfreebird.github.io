@@ -2,6 +2,12 @@
   user-select: none;
 }
 
+.cellColor0 { color: white; background-color: chocolate;     transition: background-color 5000ms linear;}
+.cellColor1 { color: white; background-color: blueviolet; transition: background-color 5000ms linear;}
+.cellColor2 { color: white; background-color: cadetblue; transition: background-color 5000ms linear;}
+.cellColor3 { color: white; background-color: crimson; transition: background-color 5000ms linear;}
+.cellColor4 { color: white; background-color: darkslategrey; transition: background-color 5000ms linear;}
+
 table {
   border-collapse: collapse;
   direction: ltr;
@@ -96,3 +102,4 @@ td.isFlashed {
 .FIXME-CENTER-VERT {
   margin-top: 20px
 }
+

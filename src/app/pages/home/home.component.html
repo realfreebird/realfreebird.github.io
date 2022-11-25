@@ -5,6 +5,6 @@
 </div>
 
 <app-board [(state)]="state" [showEngWords]="navCompo.showEngWords"></app-board>
-
+<!-- state:{{state|json}} -->
 <br>
 <button [disabled]="startingNewGame" id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>

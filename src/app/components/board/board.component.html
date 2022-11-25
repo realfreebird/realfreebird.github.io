@@ -23,14 +23,19 @@
 
     <table class="center FIXME-CENTER-VERT">
         <tr *ngFor="let r of cells">
-            <td *ngFor="let c of r" [class.cellSelected]="c.isSelected" [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed"
-                (click)="toggleCellSelection(c)">
+            <td *ngFor="let c of r" [ngClass]="c.xtraClass" [class.cellSelected]="c.isSelected"
+                [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed" (click)="toggleCellSelection(c)">
+                <!-- {{c.xtraClass}} -->
                 <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
                 {{c.letter}}
                 <!-- </button> -->
             </td>
         </tr>
     </table>
+    <div *ngIf="isGameOver && state.gameOverImg">
+        <br>
+        <img src="assets/{{state.gameOverImg}}" alt="יום הולדת שמח" style="width:100%">
+    </div>
 </div>
 
 

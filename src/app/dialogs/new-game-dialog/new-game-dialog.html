@@ -20,7 +20,8 @@
     <mat-grid-list [cols]="cols" rowHeight="2:1">
         <mat-grid-tile class="banks" *ngFor="let b of banks; let i = index">
             <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
-                [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper'}" mat-stroked-button>
+                [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg}"
+                mat-stroked-button>
                 {{b.heb}}
             </button>
         </mat-grid-tile>

@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       height: '400px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
-    d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean }) => {
+    d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean, randomColors: boolean, gameOverSoundFile: string, gameOverImg: string }) => {
       const bank = v?.bank;
       if (bank) {
         this.bank = bank;

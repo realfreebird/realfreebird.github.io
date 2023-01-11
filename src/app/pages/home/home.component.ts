@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const params: MatDialogConfig = {
       panelClass: 'new-game-dialog-panel',
       width: '500px',
-      height: '400px'
+      height: '450px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
     d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean, randomColors: boolean, gameOverSoundFile: string, gameOverImg: string }) => {

@@ -1,8 +1,48 @@
 [
     {
         "eng": "catNfox",
-        "heb": "cat & fox",
+        "heb": "crazy cat",
         "words": [
+            {
+                "eng": "farm",
+                "heb": "חווה"
+            },
+            {
+                "eng": "dark",
+                "heb": "חשוך"
+            },
+            {
+                "eng": "fur",
+                "heb": "פרווה"
+            },
+            {
+                "eng": "park",
+                "heb": "פארק"
+            },
+            {
+                "eng": "first",
+                "heb": "ראשון"
+            },
+            {
+                "eng": "turn",
+                "heb": "פניה"
+            },
+            {
+                "eng": "story",
+                "heb": "סיפור"
+            },
+            {
+                "eng": "morning",
+                "heb": "בוקר"
+            },
+            {
+                "eng": "turtle",
+                "heb": "צב"
+            },
+            {
+                "eng": "after",
+                "heb": "אחרי"
+            },
             {
                 "eng": "cat",
                 "heb": "חתול"

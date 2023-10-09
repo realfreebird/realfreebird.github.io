@@ -1,5 +1,172 @@
 [
     {
+        "eng": "space",
+        "heb": " 🌠",
+        "words": [
+            {
+                "eng": "space",
+                "heb": "חלל"
+            },
+            {
+                "eng": "star",
+                "heb": "כוכב"
+            },
+            {
+                "eng": "moon",
+                "heb": "ירח"
+            },
+            {
+                "eng": "sun",
+                "heb": "שמש"
+            },
+            {
+                "eng": "venus",
+                "heb": "נוגה"
+            },
+            {
+                "eng": "earth",
+                "heb": "הארץ"
+            },
+            {
+                "eng": "mars",
+                "heb": "מאדים"
+            },
+            {
+                "eng": "jupiter",
+                "heb": "צדק"
+            },
+            {
+                "eng": "saturn",
+                "heb": "שבתאי"
+            },
+            {
+                "eng": "mercury",
+                "heb": "חמה"
+            },
+            {
+                "eng": "neptune",
+                "heb": "נפטון"
+            },
+            {
+                "eng": "uranus",
+                "heb": "אורנוס"
+            },
+            {
+                "eng": "galaxy",
+                "heb": "גלקסיה"
+            }
+        ]
+    },
+    {
+        "eng": "sea",
+        "heb": "ים",
+        "words": [
+            {
+                "eng": "sea",
+                "heb": "ים"
+            },
+            {
+                "eng": "fish",
+                "heb": "דג"
+            },
+            {
+                "eng": "shark",
+                "heb": "כריש"
+            },
+            {
+                "eng": "whale",
+                "heb": "לוויתן"
+            },
+            {
+                "eng": "riff",
+                "heb": "ריף"
+            },
+            {
+                "eng": "sand",
+                "heb": "חול"
+            },
+            {
+                "eng": "castle",
+                "heb": "טירה"
+            },
+            {
+                "eng": "swim",
+                "heb": "לשחות"
+            },
+            {
+                "eng": "float",
+                "heb": "לצוף"
+            },
+            {
+                "eng": "wave",
+                "heb": "גל"
+            },
+            {
+                "eng": "boat",
+                "heb": "סירה"
+            },
+            {
+                "eng": "ship",
+                "heb": "ספינה"
+            }
+        ]
+    },
+    {
+        "eng": "nature",
+        "heb": "טבע",
+        "words": [
+            {
+                "eng": "wind",
+                "heb": "רוח"
+            },
+            {
+                "eng": "rain",
+                "heb": "גשם"
+            },
+            {
+                "eng": "thunder",
+                "heb": "רעם"
+            },
+            {
+                "eng": "lightning",
+                "heb": "ברק"
+            },
+            {
+                "eng": "river",
+                "heb": "נהר"
+            },
+            {
+                "eng": "lake",
+                "heb": "אגם"
+            },
+            {
+                "eng": "puddle",
+                "heb": "שלולית"
+            },
+            {
+                "eng": "flower",
+                "heb": "פרח"
+            },
+            {
+                "eng": "tree",
+                "heb": "עץ"
+            },
+            {
+                "eng": "field",
+                "heb": "שדה"
+            },
+            {
+                "eng": "animal",
+                "heb": "חיה"
+            },
+            {
+                "eng": "volcano",
+                "heb": "הר גשש"
+            }
+
+        ]
+    },
+    {
         "eng": "catNfox",
         "heb": "crazy cat",
         "words": [
@@ -454,5 +621,4 @@
             }
         ]
     }
-    
 ]

@@ -38,8 +38,11 @@ export class BoardComponent implements OnInit {
     return this.state.showEngWords;
   }
   public set showEngWords(value) {
-    this.state.showEngWords = value;
-    this.stateChange.emit(this.state);
+    // debugger;
+    if (this.state) {
+      this.state.showEngWords = value;
+      this.stateChange.emit(this.state);
+    }
   }
 
   get wordsPerGame() { return this.state?.wordsPerGame; };
@@ -72,11 +75,12 @@ export class BoardComponent implements OnInit {
     // let i = 0;
     for (let r = 0; r < this.rows; r++) {
       const row = [];
-      for (let c = 0; c < this.cols; c++) { 
-        
+      for (let c = 0; c < this.cols; c++) {
+
         // const cssClass = this.randomColors ? 'cellColor' + ((i++)%5) : '';
         const cssClass = this.randomColors ? 'cellColor' + Math.floor(Math.random() * 5) : '';
-        row.push(new Cell('', r, c, cssClass)) }
+        row.push(new Cell('', r, c, cssClass))
+      }
       a.push(row)
     }
     this.state.cells = a;
@@ -88,6 +92,11 @@ export class BoardComponent implements OnInit {
       for (let i = 0; i < 100; i++) {
         const r = getRandomInt(this.rows);
         const c = getRandomInt(this.cols - len);
+        // todo. 
+        // if (c < 0) {
+        //   console.warn(`word is too long: ${c}/${len}`);
+        //   continue;
+        // }
         const cell = this.cells[r][c];
         if (!cell.letter) {
           let j = 1
@@ -120,7 +129,7 @@ export class BoardComponent implements OnInit {
 
     // TODO FIXME
     if (errors.length) {
-      alert('could not fit all words: ' + JSON.stringify(errors))
+      console.warn('could not fit all words: ' + JSON.stringify(errors))
     }
   }
 
@@ -159,6 +168,7 @@ export class BoardComponent implements OnInit {
   }
 
   async restartGame(options: GameOptionsI) {
+    // debugger;
     this.init(options);
     await this.animateRestartGame();
   }

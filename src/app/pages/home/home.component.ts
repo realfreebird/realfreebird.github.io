@@ -29,7 +29,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   constructor(public route: ActivatedRoute, private dialogs: MatDialog, public navCompo: NavigationComponent, public storageService: StorageService) {
     const state: BoardState | null = this.storageService.get('state')
+    // console.log('state', state)
+    // debugger;
     if (state) this.state = state;
+    // else this.state = new BoardState()
   }
 
   ngOnInit(): void {
@@ -54,6 +57,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     };
     const d = this.dialogs.open(NewGameDialog, params);
     d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean, randomColors: boolean, gameOverSoundFile: string, gameOverImg: string }) => {
+      // debugger;
       const bank = v?.bank;
       if (bank) {
         this.bank = bank;

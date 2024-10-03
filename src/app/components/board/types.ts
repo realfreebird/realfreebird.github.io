@@ -18,9 +18,10 @@ export class Cell {
     isSelected = false;
     isSolved = false;
     isFlashed = false;
+    // displayLetter =  null; // null = same as this.letter
 
     // constructor(private _letter: string, public r: number, public c: number, public _state_TODO?: any) { }
-    constructor(public letter: string, public r: number, public c: number, public xtraClass: string) { }
+    constructor(public letter: string, public r: number, public c: number, public xtraClass: string, public displayLetter?: string) { }
 }
 
 export interface RowCellSelection {
@@ -43,7 +44,8 @@ export class BoardState {
         public bank: string | null = null,
         public isUpperCase = false,
         public showEngWords = true,
-        public randomColors = false
+        public randomColors = false,
+        public wildcard: string | null = null
     ) {
     }
 }

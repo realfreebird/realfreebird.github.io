@@ -21,6 +21,7 @@ interface GameOptionsI {
   randomColors: boolean;
   gameOverSoundFile: string;
   gameOverImg: string;
+  wildcard: string;
 }
 
 @Component({
@@ -90,6 +91,12 @@ export class BoardComponent implements OnInit {
 
     const findRandomEmptyCell = (len: number) => {
       for (let i = 0; i < 100; i++) {
+
+        if (this.cols - len < 0) {
+          throw `word is too long.  ${len}/${this.cols}`;
+        }
+
+
         const r = getRandomInt(this.rows);
         const c = getRandomInt(this.cols - len);
         // todo. 
@@ -121,7 +128,7 @@ export class BoardComponent implements OnInit {
       let cell = cell0;
 
       for (const letter of w.eng) {
-        cell.letter = letter;
+        cell.letter = cell.displayLetter = letter;
         const nextCell = this.cells[cell.r][cell.c + 1];
         cell = nextCell;
       }
@@ -139,12 +146,27 @@ export class BoardComponent implements OnInit {
       const row = this.cells[r];
       const firstChartCode = this.isUpperCase ? 65 : 97;
       for (let c = 0; c < this.cols; c++) {
-        if (row[c].letter) { continue; }
+        const cell = row[c];
+        if (cell.letter) { continue; }
         const l = String.fromCharCode(firstChartCode + getRandomInt(26))
-        row[c].letter = l
+        cell.letter = cell.displayLetter = l;
       }
     }
   }
+
+  addWildCards(wildcard: string) {
+    for (let r = 0; r < this.rows; r++) {
+      const row = this.cells[r];
+      for (let c = 0; c < this.cols; c++) {
+        const cell = row[c];
+        const rand = Math.floor(Math.random() * 5);
+        if (rand == 0) {
+          cell.displayLetter = wildcard
+        }
+      }
+    }
+  }
+
 
   resetFoundWords() {
     this.words.forEach(w => w.found = false);
@@ -157,11 +179,19 @@ export class BoardComponent implements OnInit {
     this.state.randomColors = options.randomColors;
     this.state.gameOverSoundFile = options.gameOverSoundFile;
     this.state.gameOverImg = options.gameOverImg;
+    this.state.wildcard = options.wildcard;
+
+    // const bank = this.state.bank;
+    // if (!bank) throw "bank is null";
+    // const wildcard = this.wordsBankService.banks.find(x => x.eng === bank)?.wildcard;
 
     this.getWords();
     this.createEmptyBoard();
     this.addWords2Board();
     this.fillTheBlanks();
+    if (this.state.wildcard) {
+      this.addWildCards(this.state.wildcard);
+    }
     this.resetFoundWords();
 
     this.stateChange.emit(this.state);

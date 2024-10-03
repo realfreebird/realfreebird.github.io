@@ -1,5 +1,56 @@
 [
     {
+        "eng": "newyear",
+        "heb": "🍎",
+        "wildcard": "🍎",
+        "words": [
+            {
+                "eng": "honey",
+                "heb": "דבש"
+            },
+            {
+                "eng": "new",
+                "heb": "חדש/ה"
+            },
+            {
+                "eng": "year",
+                "heb": "שנה"
+            },
+            {
+                "eng": "happy",
+                "heb": "שמח/ה"
+            },
+            {
+                "eng": "holiday",
+                "heb": "חג"
+            },
+            {
+                "eng": "apple",
+                "heb": "תפוח"
+            },
+            {
+                "eng": "dessert",
+                "heb": "קינוח"
+            },
+            {
+                "eng": "family",
+                "heb": "משפחה"
+            },
+            {
+                "eng": "friends",
+                "heb": "חברים"
+            },
+            {
+                "eng": "cake",
+                "heb": "עוגה"
+            },
+            {
+                "eng": "gifts",
+                "heb": "מתנות"
+            }
+        ]
+    },
+    {
         "eng": "space",
         "heb": "🌠",
         "words": [

@@ -32,8 +32,10 @@ function shuffle(array: any[]) {
 })
 export class WordsBankService {
 
+  banks = banks;
+
   getBanks() {
-    return banks.map(b => ({ eng: b.eng, heb: b.heb, randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
+    return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
   }
 
   get(bank: string, max: number, isUpperCase: boolean): Word[] {

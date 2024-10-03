@@ -1,4 +1,14 @@
-<h2 mat-dialog-title>משחק חדש</h2>
+<!-- <h2 mat-dialog-title>משחק חדש</h2> -->
+<h2 mat-dialog-title>
+    <div style="text-align: center; margin-top: 10px; font-size: x-large; color: #9e0142; background-color: lightyellow; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 35%;
+    ">
+        מהדורת ראש השנה 🍎
+    </div>
+</h2>
+
 <mat-dialog-content>
 
     <!-- [routerLink]="['/home' , {bank: b.eng}]" -->
@@ -20,7 +30,7 @@
     <mat-grid-list [cols]="cols" rowHeight="2:1">
         <mat-grid-tile class="banks" *ngFor="let b of banks; let i = index">
             <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
-                [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg}"
+                [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg , wildcard: b.wildcard}"
                 mat-stroked-button>
                 {{b.heb}}
             </button>

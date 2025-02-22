@@ -1,5 +1,49 @@
 [
     {
+        "eng": "Hmmm",
+        "heb": "המממ",
+        "wildcard": "🐱",
+        "words": [
+            {
+                "eng": "motion",
+                "heb": "תנועה"
+            },
+            {
+                "eng": "looks",
+                "heb": "מראה"
+            },
+            {
+                "eng": "sound",
+                "heb": "צליל"
+            },
+            {
+                "eng": "events",
+                "heb": "אירועים"
+            },
+            {
+                "eng": "control",
+                "heb": "בקרה"
+            },
+            {
+                "eng": "sensing",
+                "heb": "חיישנים"
+            },
+            {
+                "eng": "operators",
+                "heb": "פעולה",
+                "ignore": true
+            },
+            {
+                "eng": "variable",
+                "heb": "משתנה"
+            },
+            {
+                "eng": "blocks",
+                "heb": "לבנים"
+            }
+        ]
+    },
+    {
         "eng": "newyear",
         "heb": "🍎",
         "wildcard": "🍎",

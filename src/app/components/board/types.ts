@@ -45,7 +45,8 @@ export class BoardState {
         public isUpperCase = false,
         public showEngWords = true,
         public randomColors = false,
-        public wildcard: string | null = null
+        public wildcard: string | null = null,
+        public wildcardMagic = true
     ) {
     }
 }

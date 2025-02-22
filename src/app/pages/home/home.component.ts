@@ -31,7 +31,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const state: BoardState | null = this.storageService.get('state')
     // console.log('state', state)
     // debugger;
-    if (state) this.state = state;
+    if (state) {
+      this.state = state;
+    }
     // else this.state = new BoardState()
   }
 
@@ -40,12 +42,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (!this.state) this.restartGame();
+      debugger;
+      if (this.state) this.restartTimers();
+      else this.restartGame();
     }, 0);
   }
 
   private saveState() {
     this.storageService.set('state', this.state);
+  }
+
+  restartTimers() {
+    this.board.restartTimers();
   }
 
   startingNewGame = false;
@@ -56,7 +64,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       height: '450px'
     };
     const d = this.dialogs.open(NewGameDialog, params);
-    d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean, randomColors: boolean, gameOverSoundFile: string, gameOverImg: string, wildcard: string }) => {
+    d.afterClosed().subscribe(async (v: { bank: string, isUpperCase: boolean, randomColors: boolean, gameOverSoundFile: string, gameOverImg: string, wildcard: string, wildcardMagic: boolean }) => {
       // debugger;
       const bank = v?.bank;
       if (bank) {

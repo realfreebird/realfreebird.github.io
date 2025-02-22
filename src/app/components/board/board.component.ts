@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash';
-import { concatMap, delay, from, map, of, concat } from 'rxjs';
+import { concatMap, delay, from, map, of, concat, interval, Subscription } from 'rxjs';
 import { TtsService, Word, WordsBankService } from 'src/app/services/services';
 import { BoardState, Cell, RowCellSelection } from './types';
 
@@ -22,6 +22,7 @@ interface GameOptionsI {
   gameOverSoundFile: string;
   gameOverImg: string;
   wildcard: string;
+  wildcardMagic: boolean
 }
 
 @Component({
@@ -154,7 +155,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
-  addWildCards(wildcard: string) {
+  _OLD_addWildCards(wildcard: string) {
     for (let r = 0; r < this.rows; r++) {
       const row = this.cells[r];
       for (let c = 0; c < this.cols; c++) {
@@ -166,6 +167,50 @@ export class BoardComponent implements OnInit {
       }
     }
   }
+
+  placeWildcard() {
+    const maxAttempts = this.rows * this.cols * 2; // Watchdog to prevent infinite loops
+    const wildcard = this.state.wildcard ?? '*';
+    let attempts = 0;
+    while (attempts < maxAttempts) {
+      const r = Math.floor(Math.random() * this.rows);
+      const c = Math.floor(Math.random() * this.cols);
+      const positionKey = `${r},${c}`;
+
+      if (!this.wildCardPositions.has(positionKey)) {
+        this.cells[r][c].displayLetter = wildcard;
+        this.wildCardPositions.add(positionKey);
+        return;
+      }
+      attempts++;
+    }
+  }
+
+  wildCardPositions = new Set<string>();
+
+  addWildCards() {
+    const n = Math.floor((this.rows * this.cols) / 5);
+    console.log('addWildCards', this.state.wildcard, n)
+    for (let i = 0; i < n; i++) {
+      this.placeWildcard();
+    }
+  }
+
+  removewildCard() {
+    if (!this.wildCardPositions.size) { return; }
+    let pos2Remove: string = ''
+    this.wildCardPositions.forEach(p => {
+      if (pos2Remove) { return; }
+      pos2Remove = p;
+      const [r, c] = p.split(',').map(s => parseInt(s));
+      console.log(`removewildCards: r/c ${r}/${c})`);
+      this.cells[r][c].displayLetter = this.cells[r][c].letter;
+    })
+    if (pos2Remove) {
+      this.wildCardPositions.delete(pos2Remove);
+    }
+  }
+
 
 
   resetFoundWords() {
@@ -180,6 +225,7 @@ export class BoardComponent implements OnInit {
     this.state.gameOverSoundFile = options.gameOverSoundFile;
     this.state.gameOverImg = options.gameOverImg;
     this.state.wildcard = options.wildcard;
+    this.state.wildcardMagic = options.wildcardMagic;
 
     // const bank = this.state.bank;
     // if (!bank) throw "bank is null";
@@ -189,17 +235,41 @@ export class BoardComponent implements OnInit {
     this.createEmptyBoard();
     this.addWords2Board();
     this.fillTheBlanks();
-    if (this.state.wildcard) {
-      this.addWildCards(this.state.wildcard);
+    if (this.state.wildcard/*  && !this.state.wildcardMagic */) {
+      this.addWildCards();
     }
     this.resetFoundWords();
 
     this.stateChange.emit(this.state);
   }
 
+  timer = interval(2000);
+  subTimer!: Subscription;
+
+  restartTimers() {
+    if (this.subTimer) {
+      this.subTimer.unsubscribe();
+    }
+
+    // debugger;
+    // if (!this.state.wildcardMagic) { return; }
+
+    this.subTimer = this.timer.pipe(
+      delay(getRandomInt(5) * 200))
+      .subscribe(v => {
+        this.removewildCard();
+        setTimeout(() => {
+          this.placeWildcard();
+        }, 200);
+      })
+
+  }
+
   async restartGame(options: GameOptionsI) {
     // debugger;
     this.init(options);
+    this.wildCardPositions.clear();
+    this.restartTimers();
     await this.animateRestartGame();
   }
 

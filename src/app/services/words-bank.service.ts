@@ -4,6 +4,7 @@ import banks from './words.json';
 export interface Word {
   eng: string,
   heb: string,
+  ignore?: boolean
   // found: boolean,
 }
 
@@ -35,16 +36,19 @@ export class WordsBankService {
   banks = banks;
 
   getBanks() {
-    return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
+    return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
   }
 
   get(bank: string, max: number, isUpperCase: boolean): Word[] {
     const r = banks.find(x => x.eng === bank);
     if (r) {
-      let words0 = [...r.words];
+      let words0: Word[] = [...(r.words as Word[]).filter(w =>!w.ignore)];
       const f = (s: string) => isUpperCase ? s.toUpperCase() : s.toLocaleLowerCase();
       const words = words0.map(w => ({ ...w, eng: f(w.eng) }))
-      return shuffle(words).splice(0, max);
+      const ret = shuffle(words).splice(0, max);
+      // console.log('ret', ret);
+      // debugger;
+      return ret;
     }
     return [];
   }

@@ -5,8 +5,10 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
     <mat-toolbar>תפריט</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item *ngFor="let b of wordsBankService.getBanks()"
+      @for (b of wordsBankService.getBanks(); track b) {
+        <a mat-list-item
         [routerLink]="['/home' , {bank: b.eng}]">{{b.heb}}</a>
+      }
       <!-- <a mat-list-item [disabled]="true" href="#">צבעים</a>
       <a mat-list-item [disabled]="true" href="#">צבעים</a>
       <a mat-list-item [disabled]="true" href="#">שונות</a> -->
@@ -16,29 +18,33 @@
     <mat-toolbar color="primary">
       <!-- not in use any more -->
       <!-- <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button> -->
-      <span>פאזל מילים לזוהר</span>
-      &nbsp;
-      <button style="min-width: 0; margin: 0" mat-stroked-button (click)="showEngWords = !showEngWords">
-        <mat-icon *ngIf="showEngWords">
+      *ngIf="isHandset$ | async">
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button> -->
+    <span>פאזל מילים לזוהר</span>
+    &nbsp;
+    <button style="min-width: 0; margin: 0" mat-stroked-button (click)="showEngWords = !showEngWords">
+      @if (showEngWords) {
+        <mat-icon>
           visibility_off
         </mat-icon>
-        <mat-icon *ngIf="!showEngWords">
+      }
+      @if (!showEngWords) {
+        <mat-icon>
           visibility
         </mat-icon>
-      </button>
-      
-    </mat-toolbar>
+      }
+    </button>
 
-    <!-- Add Content Here -->
-    <div class="container">
-      <div class="element">
-        <router-outlet></router-outlet>
-      </div>
+  </mat-toolbar>
+
+  <!-- Add Content Here -->
+  <div class="container">
+    <div class="element">
+      <router-outlet></router-outlet>
     </div>
+  </div>
 
 
-  </mat-sidenav-content>
+</mat-sidenav-content>
 </mat-sidenav-container>

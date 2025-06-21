@@ -1,41 +1,49 @@
 <div class="center" [class.gameOver]="isGameOver">
-    <div class="words center">
-        <!-- &nbsp;
-        <button mat-stroked-button *ngFor="let w of words" class="wordButton" [class.wordFound]="w.found"
-            (click)="speak(w.eng)">
+  <div class="words center">
+    <!-- &nbsp;
+    <button mat-stroked-button *ngFor="let w of words" class="wordButton" [class.wordFound]="w.found"
+      (click)="speak(w.eng)">
+      {{w.heb}}
+      |
+      {{w.eng}}
+    </button> -->
+    <!-- rowHeight="2:1" -->
+    <mat-grid-list [cols]="2" [rowHeight]="44">
+      @for (w of words; track w) {
+        <mat-grid-tile>
+          <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
             {{w.heb}}
-            |
-            {{w.eng}}
-        </button> -->
-        <!-- rowHeight="2:1" -->
-        <mat-grid-list [cols]="2" [rowHeight]="44">
-            <mat-grid-tile *ngFor="let w of words">
-                <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
-                    {{w.heb}}
-                    <ng-container *ngIf="showEngWords">
-                        |
-                        {{w.eng}}
-                    </ng-container>
-                </button>
-            </mat-grid-tile>
-        </mat-grid-list>
-    </div>
+            @if (showEngWords) {
+              |
+              {{w.eng}}
+            }
+          </button>
+        </mat-grid-tile>
+      }
+    </mat-grid-list>
+  </div>
 
-    <table class="center FIXME-CENTER-VERT">
-        <tr *ngFor="let r of cells">
-            <td *ngFor="let c of r" [ngClass]="c.xtraClass" [class.cellSelected]="c.isSelected"
-                [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed" (click)="toggleCellSelection(c)">
-                <!-- {{c.xtraClass}} -->
-                <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
-                {{c.displayLetter}}
-                <!-- </button> -->
-            </td>
-        </tr>
-    </table>
-    <div *ngIf="isGameOver && state.gameOverImg">
-        <br>
-        <img src="assets/{{state.gameOverImg}}" alt="יום הולדת שמח" style="width:100%">
+  <table class="center FIXME-CENTER-VERT">
+    @for (r of cells; track r) {
+      <tr>
+        @for (c of r; track c) {
+          <td [ngClass]="c.xtraClass" [class.cellSelected]="c.isSelected"
+            [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed" (click)="toggleCellSelection(c)">
+            <!-- {{c.xtraClass}} -->
+            <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
+            {{c.displayLetter}}
+          <!-- </button> -->
+        </td>
+      }
+    </tr>
+  }
+</table>
+@if (isGameOver && state.gameOverImg) {
+  <div>
+    <br>
+      <img src="assets/{{state.gameOverImg}}" alt="יום הולדת שמח" style="width:100%">
     </div>
+  }
 </div>
 
 

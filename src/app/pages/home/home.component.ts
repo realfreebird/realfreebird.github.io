@@ -8,9 +8,10 @@ import { NavigationComponent } from 'src/app/navigation/navigation.component';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 

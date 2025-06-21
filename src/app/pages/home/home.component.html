@@ -1,10 +1,12 @@
 
-<div *ngIf="0" style="direction: ltr; margin: 2px; border: 1px dashed blue; background-color: lightgoldenrodyellow;">
+@if (0) {
+  <div style="direction: ltr; margin: 2px; border: 1px dashed blue; background-color: lightgoldenrodyellow;">
     state:
     <pre>{{state | json}}</pre>
-</div>
+  </div>
+}
 
 <app-board [(state)]="state" [showEngWords]="navCompo.showEngWords"></app-board>
 <!-- state:{{state|json}} -->
 <br>
-<button [disabled]="startingNewGame" id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>
+  <button [disabled]="startingNewGame" id="new-game-button" mat-raised-button color="primary" (click)="restartGame()">משחק חדש</button>

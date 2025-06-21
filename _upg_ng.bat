@@ -1,5 +1,5 @@
 @REM loop from 17 to 20 and update anguarl, commit, update angular material, commit
-for /l %%i in (18,1,20) do (
+for /l %%i in (19,1,20) do (
     call ng update @angular/core@%%i --force
     if errorlevel 1 (
         echo Failed to update @angular/core to version %%i

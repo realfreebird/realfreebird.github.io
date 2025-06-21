@@ -1,6 +1,5 @@
 call ng update @angular/material@16
-git add *
-git commit -m "Update Angular Material to version 16"
+git add * && git commit -m "Update Angular Material to version 16"
 pause
 
 @REM loop from 17 to 20 and update anguarl, commit, update angular material, commit

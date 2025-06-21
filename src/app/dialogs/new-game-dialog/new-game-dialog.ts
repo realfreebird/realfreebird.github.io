@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { WordsBankService } from 'src/app/services/services';
 
 @Component({
-  selector: 'app-new-game-dialog',
-  templateUrl: './new-game-dialog.html',
-  styleUrls: ['./new-game-dialog.scss']
+    selector: 'app-new-game-dialog',
+    templateUrl: './new-game-dialog.html',
+    styleUrls: ['./new-game-dialog.scss'],
+    standalone: false
 })
 export class NewGameDialog implements OnInit {
 

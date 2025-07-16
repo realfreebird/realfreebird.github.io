@@ -1,5 +1,30 @@
 # Copilot Instructions for EngWordPuzzleForZozi
 
+## Game Overview
+- EngWordPuzzleForZozi is an English-Hebrew word search puzzle game for children, themed for special occasions (e.g., birthdays, holidays).
+- The player’s goal is to find all the target words (in English or Hebrew) hidden in a letter grid.
+- The game is played on a board (default: 8x8 grid), with words placed horizontally (left-to-right) in random rows. Words are not placed vertically or diagonally.
+- Each game session uses a specific word bank (category), selectable at game start.
+
+## Gameplay Rules & Mechanics
+- **Word Source:**
+  - Words are loaded from `src/app/services/words.json` via `words-bank.service.ts`.
+  - Each bank/category contains a list of English-Hebrew word pairs, and may define wildcards, images, or sounds.
+- **Board Setup:**
+  - Board size defaults to 8x8 (`BoardState`), but can be configured.
+  - A fixed number of words (default: 5) are randomly selected and placed horizontally on the board.
+  - Remaining cells are filled with random letters.
+  - Wildcards (e.g., emoji) may be placed according to the selected bank.
+- **Finding Words:**
+  - Players select contiguous cells in a row to form words; only horizontal selections are valid. Correct selections are marked as solved.
+  - Found words are visually marked and can trigger sound or TTS feedback.
+  - The game ends when all words are found, triggering a game-over image and sound.
+- **Options & Limitations:**
+  - Players can toggle between uppercase/lowercase letters.
+  - Some banks enable random cell colors or special effects.
+  - The number of words per game and board size can be adjusted in code.
+  - No user word entry or admin word editing in the UI (see TODOs).
+
 ## Project Overview
 - This is an Angular 20 app for an English word puzzle game, generated with Angular CLI.
 - Main app code is in `src/app/` with subfolders for components, dialogs, services, navigation, and pages.

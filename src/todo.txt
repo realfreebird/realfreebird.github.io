@@ -1,3 +1,6 @@
+-1 switch from angular-cli-ghpages to gh-pages.
+
+
 
 ✓ 0. game-over state.
 1. game-over extravaganza
@@ -32,3 +35,5 @@ zozi feedback 6/10/22
 
 eng-word-puzzle-for-zozi
 realfreebird.github.io
+
+use https://docs.google.com/spreadsheets/d/1o8A6M7PfF4Z22drUJBgixGxkbBgJJEfk/edit?usp=sharing&ouid=105294394836397364550&rtpof=true&sd=true as word bank

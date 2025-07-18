@@ -5,7 +5,7 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
     <mat-toolbar>תפריט</mat-toolbar>
     <mat-nav-list>
-      @for (b of wordsBankService.getBanks(); track b) {
+      @for (b of wordsBankService.banks; track b) {
         <a mat-list-item
         [routerLink]="['/home' , {bank: b.eng}]">{{b.heb}}</a>
       }

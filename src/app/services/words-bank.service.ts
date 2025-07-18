@@ -33,11 +33,11 @@ function shuffle(array: any[]) {
 })
 export class WordsBankService {
 
-  banks = banks;
+  banks = banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
 
-  getBanks() {
-    return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
-  }
+  // getBanks() {
+  //   return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
+  // }
 
   get(bank: string, max: number, isUpperCase: boolean): Word[] {
     const r = banks.find(x => x.eng === bank);

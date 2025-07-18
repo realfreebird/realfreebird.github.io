@@ -4,7 +4,16 @@
 - EngWordPuzzleForZozi is an English-Hebrew word search puzzle game for children, themed for special occasions (e.g., birthdays, holidays).
 - The player’s goal is to find all the target words (in English or Hebrew) hidden in a letter grid.
 - The game is played on a board (default: 8x8 grid), with words placed horizontally (left-to-right) in random rows. Words are not placed vertically or diagonally.
-- Each game session uses a specific word bank (category), selectable at game start.
+- Each game session uses a specific word bank (category), selectable at game start via a dialog.
+
+## UI Overview (as of v0.9.0)
+- **Header:** Displays the game title ("פאזל מילים לזוהר") and a button to toggle word visibility (eye icon).
+- **Main Action:** "משחק חדש" (New Game) button opens a dialog to start a new game.
+- **New Game Dialog:**
+  - Title: "משחק חדש"
+  - Letter case selection: radio buttons for "abc | אותיות קטנות" (lowercase, default) and "ABC | אותיות גדולות" (uppercase)
+  - Word bank/category selection: multiple buttons (e.g., "המממ", "🍎", "🌠", "ים", "טבע", "crazy cat", "🎂", "חיות", "צבעים", "מספרים", "שונות")
+  - Cancel button: "ביטול"
 
 ## Gameplay Rules & Mechanics
 - **Word Source:**
@@ -20,10 +29,27 @@
   - Found words are visually marked and can trigger sound or TTS feedback.
   - The game ends when all words are found, triggering a game-over image and sound.
 - **Options & Limitations:**
-  - Players can toggle between uppercase/lowercase letters.
+  - Players can toggle between uppercase/lowercase letters (via the new game dialog).
   - Some banks enable random cell colors or special effects.
   - The number of words per game and board size can be adjusted in code.
   - No user word entry or admin word editing in the UI (see TODOs).
+
+## Detailed Gameplay Flow (UI v0.9.0)
+- When a new game starts, a list of target words (in both Hebrew and English) appears at the top of the board.
+- The main board is an 8x8 grid of letters (and sometimes wildcards/emoji).
+- Each target word is hidden horizontally in a random row, but the letters may be separated by wildcards or random letters.
+- To find a word, the player must select the correct sequence of contiguous cells in a single row that matches the English word (ignoring wildcards and extra letters).
+- Each cell acts as a toggle: clicking a cell selects or deselects it. This allows the player to correct mistakes by toggling off incorrect selections.
+- When the correct sequence for a word is selected, it is marked as found, and the word is visually updated in the list.
+- The process is repeated for all target words. The game is won when all words are found, triggering a game-over image and sound.
+- The "משחק חדש" (New Game) button is disabled during an active game and re-enabled after the game is won.
+- The UI provides immediate feedback for each selection, and the board updates dynamically as words are found.
+
+## Tips for Playing
+- Use the word list at the top to guide your search; match the English word to the correct row.
+- Only horizontal, contiguous selections are valid. Wildcards (e.g., emoji) may appear between letters but do not break the word.
+- If you make a mistake, simply click the cell again to deselect it.
+- Some rows may contain random letters or wildcards that are not part of any word—focus on the correct sequence for each target word.
 
 ## Project Overview
 - This is an Angular 20 app for an English word puzzle game, generated with Angular CLI.
@@ -68,6 +94,18 @@
   - TTS logic is in `tts.service.ts`.
 - **Word Bank:**
   - Word lists are in `words-bank.service.ts` and `words.json`.
+
+## UI Feedback & Cues
+- Clicking a letter cell toggles its selection state with a visual highlight, helping the player track their current selection.
+- Clicking a target word in the list highlights it, indicating the current word focus.
+- When a correct word is found:
+  - The word in the target list is visually marked as solved (e.g., color change, strikethrough, or highlight).
+  - The corresponding cells on the board are visually updated to indicate the word was found.
+  - Audio feedback (sound or TTS) may play to reinforce success.
+  - TTS (Text-to-Speech) is used to sound out the selected letter and the found word.
+- When all words are found:
+  - A game-over image and sound are triggered.
+  - The "משחק חדש" (New Game) button is re-enabled for another round.
 
 ## Examples
 - To add a new dialog: create a folder in `src/app/dialogs/`, add component, and register in `app.module.ts`.

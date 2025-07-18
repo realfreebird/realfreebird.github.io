@@ -14,7 +14,7 @@ export class NewGameDialog implements OnInit {
   cols = 2;
 
   constructor(public wordsBankService: WordsBankService) {
-    this.banks = wordsBankService.getBanks();
+    this.banks = wordsBankService.banks;
     const n = this.banks.length;
     if (n === 0) {
       throw new Error('failed to fetch banks');

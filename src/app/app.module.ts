@@ -26,8 +26,6 @@ class MyErrorHandler implements ErrorHandler {
   declarations: [
     AppComponent,
     NavigationComponent,
-    P.HomeComponent,
-    C.BoardComponent,
     NewGameDialog
   ],
   imports: [

@@ -1,0 +1,7 @@
+<div class="seven-segment-timer" [class.urgent]="urgent" dir="ltr">
+  <div class="digits">
+    <span class="digit" *ngFor="let d of minutesArr">{{d}}</span>
+    <span class="colon">:</span>
+    <span class="digit" *ngFor="let d of secondsArr">{{d}}</span>
+  </div>
+</div>

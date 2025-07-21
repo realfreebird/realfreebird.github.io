@@ -2,16 +2,19 @@ import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/cor
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BoardState } from 'src/app/components/board/types';
-import { BoardComponent } from 'src/app/components/components';
+import { BoardComponent } from 'src/app/components/board/board.component';
 import { NewGameDialog } from 'src/app/dialogs/dialogs';
 import { NavigationComponent } from 'src/app/navigation/navigation.component';
 import { StorageService } from 'src/app/services/storage.service';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, BoardComponent, MatButtonModule]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
 

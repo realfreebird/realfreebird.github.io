@@ -1,8 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import * as _ from 'lodash';
 import { concatMap, delay, from, map, of, concat, interval, Subscription } from 'rxjs';
 import { TtsService, Word, WordsBankService } from 'src/app/services/services';
 import { BoardState, Cell, RowCellSelection } from './types';
+import { SevenSegmentTimerComponent } from '../seven-segment-timer/seven-segment-timer.component';
+import { CommonModule } from '@angular/common';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonModule } from '@angular/material/button';
 
 async function sleep(ms: number) {
   await Promise.resolve((resolve: any) => { setTimeout(() => { resolve(); }, ms); });
@@ -30,9 +34,10 @@ interface GameOptionsI {
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [CommonModule, SevenSegmentTimerComponent, MatGridListModule, MatButtonModule]
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
 
   @Input() state!: BoardState
   @Output() stateChange = new EventEmitter<BoardState>();
@@ -64,8 +69,48 @@ export class BoardComponent implements OnInit {
 
   constructor(public wordsBankService: WordsBankService, public TTS: TtsService) { (window as any).board = this; }
 
-  ngOnInit(): void { /* this.init() */ }
+  private timerInterval: any = null;
 
+  ngOnInit(): void {
+    this.startTimerIfNeeded();
+  }
+
+  ngOnDestroy(): void {
+    this.clearTimer();
+  }
+
+  private startTimerIfNeeded() {
+    this.clearTimer();
+    if (this.state && this.state.timerDurationSec !== null && !this.state.isGameOver) {
+      this.timerInterval = setInterval(() => {
+        if (this.state.isGameOver) { this.clearTimer(); return; }
+        if (this.state.timerDurationSec && this.state.timerDurationSec > 0) {
+          this.state.timerDurationSec--;
+          this.stateChange.emit(this.state);
+          if (this.state.timerDurationSec === 0) {
+            this.handleTimerGameOver();
+          }
+        }
+      }, 1000);
+    }
+  }
+
+  private clearTimer() {
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  private handleTimerGameOver() {
+    if (this.state.difficulty !== 'קליל' && !this.state.isGameOver) {
+      this.state.isGameOver = true;
+      this.stateChange.emit(this.state);
+      this.playSound('gameOver');
+      // Optionally trigger animation here
+    }
+    this.clearTimer();
+  }
 
   /** get n random words based on this.bank & this.wordsPerGame */
   async getWords() {
@@ -273,7 +318,25 @@ export class BoardComponent implements OnInit {
     await this.init(options);
     this.wildCardPositions.clear();
     this.restartTimers();
+    this.startTimerIfNeeded();
     await this.animateRestartGame();
+  }
+
+  restartGameFromButton() {
+    // Reuse the last used options or prompt for new game
+    if (this.state) {
+      const options = {
+        bank: this.state.bank ?? 'animals',
+        isUpperCase: this.state.isUpperCase,
+        randomColors: this.state.randomColors,
+        gameOverSoundFile: this.state.gameOverSoundFile,
+        gameOverImg: this.state.gameOverImg,
+        wildcard: this.state.wildcard ?? '',
+        wildcardMagic: this.state.wildcardMagic,
+        difficulty: this.state.difficulty
+      };
+      this.restartGame(options);
+    }
   }
 
   getSelectionRange(cell: Cell): RowCellSelection {

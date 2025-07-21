@@ -1,4 +1,8 @@
 <div class="center" [class.gameOver]="isGameOver">
+  <!-- Timer UI -->
+  <ng-container *ngIf="state && state.timerDurationSec !== undefined && state.timerDurationSec !== null">
+    <app-seven-segment-timer [seconds]="state.timerDurationSec" [urgent]="state.timerDurationSec <= 5 && state.timerDurationSec > 0"></app-seven-segment-timer>
+  </ng-container>
   <!-- TEMP: Debug timer value for Playwright verification -->
   <div *ngIf="state && state.timerDurationSec !== undefined">
     <span style="font-size: 1.2em; color: #9e0142; background: #fffbe6; padding: 4px 12px; border-radius: 8px;">
@@ -45,12 +49,16 @@
     </tr>
   }
 </table>
-@if (isGameOver && state.gameOverImg) {
-  <div>
-    <br>
+@if (isGameOver) {
+  <div class="game-over">
+    <div class="game-over-text">GAME OVER</div>
+    <button mat-raised-button color="warn" (click)="restartGameFromButton()">נסה שנית</button>
+    <div *ngIf="state.gameOverImg">
+      <br>
       <img src="assets/{{state.gameOverImg}}" alt="יום הולדת שמח" style="width:100%">
     </div>
-  }
+  </div>
+}
 </div>
 
 

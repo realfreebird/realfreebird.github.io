@@ -1,0 +1,47 @@
+.seven-segment-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.digits {
+  display: flex;
+  font-family: 'Seven Segment', 'Courier New', Courier, monospace;
+  font-size: 2.5em;
+  letter-spacing: 0.1em;
+}
+.digit {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.5em;
+  background: #222;
+  color: #ff2d00;
+  border-radius: 0.2em;
+  margin: 0 0.05em;
+  text-align: center;
+  line-height: 1.5em;
+  box-shadow: 0 0 8px #ff2d00;
+  transition: background 0.2s, color 0.2s;
+}
+.colon {
+  display: inline-block;
+  width: 0.7em;
+  text-align: center;
+  color: #ff2d00;
+  font-weight: bold;
+  margin: 0 0.1em;
+  text-shadow: 0 0 8px #ff2d00;
+}
+
+.seven-segment-timer.urgent .digit,
+.seven-segment-timer.urgent .colon {
+  color: #fff;
+  background: #d32f2f;
+  box-shadow: 0 0 16px #d32f2f, 0 0 8px #fff;
+  animation: blink 0.7s steps(1) infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  100% { opacity: 0.5; }
+}

@@ -26,10 +26,10 @@ interface GameOptionsI {
 }
 
 @Component({
-    selector: 'app-board',
-    templateUrl: './board.component.html',
-    styleUrls: ['./board.component.scss'],
-    standalone: false
+  selector: 'app-board',
+  templateUrl: './board.component.html',
+  styleUrls: ['./board.component.scss'],
+  standalone: false
 })
 export class BoardComponent implements OnInit {
 
@@ -311,6 +311,40 @@ export class BoardComponent implements OnInit {
 
   async toggleCellSelection(c: Cell) {
     if (c.isSolved) { return; /* nothing todo */ }
+
+    // Unselect all selected cells in other rows if selecting a cell in a new row
+    if (!c.isSelected) {
+      for (let r = 0; r < this.rows; r++) {
+        if (r == c.r) { continue };
+        for (let cell of this.cells[r]) {
+          if (cell.isSelected) {
+            cell.isSelected = false;
+          }
+        }
+      }
+    }
+
+    // Enforce contiguous selection in the same row
+    if (!c.isSelected) {
+      const row = this.cells[c.r];
+      // Find all selected indices in this row
+      const selectedIndices = row.map((cell, idx) => cell.isSelected ? idx : -1).filter(idx => idx !== -1);
+      if (selectedIndices.length > 0) {
+        // If there is a gap between the new selection and any selected cell, unselect all in this row
+        let hasGap = true;
+        for (const idx of selectedIndices) {
+          if (Math.abs(idx - c.c) === 1) {
+            hasGap = false;
+            break;
+          }
+        }
+        if (hasGap) {
+          for (let cell of row) {
+            if (cell.isSelected) cell.isSelected = false;
+          }
+        }
+      }
+    }
 
     c.isSelected = !c.isSelected;
 

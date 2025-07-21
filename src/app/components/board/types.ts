@@ -37,6 +37,8 @@ export class BoardState {
     isGameOver = false;
     gameOverSoundFile!: string;
     gameOverImg!: string;
+    difficulty: 'קליל' | 'קל' | 'קשה' | 'קשה מאוד' = 'קליל';
+    timerDurationSec: number | null = null;
     constructor(
         public rows = 8,
         public cols = 8,
@@ -48,5 +50,20 @@ export class BoardState {
         public wildcard: string | null = null,
         public wildcardMagic = true
     ) {
+        this.setTimerDuration();
+    }
+    setTimerDuration() {
+        if (this.difficulty === 'קליל') {
+            this.timerDurationSec = null;
+        } else {
+            const baseTimePerWord = 20;
+            const multipliers: Record<string, number> = {
+                'קל': 1.5,
+                'קשה': 1.0,
+                'קשה מאוד': 0.7
+            };
+            const multiplier = multipliers[this.difficulty] ?? 1.0;
+            this.timerDurationSec = Math.round((baseTimePerWord * this.wordsPerGame) * multiplier);
+        }
     }
 }

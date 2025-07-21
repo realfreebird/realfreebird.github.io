@@ -22,7 +22,8 @@ interface GameOptionsI {
   gameOverSoundFile: string;
   gameOverImg: string;
   wildcard: string;
-  wildcardMagic: boolean
+  wildcardMagic: boolean;
+  difficulty: 'קליל' | 'קל' | 'קשה' | 'קשה מאוד';
 }
 
 @Component({
@@ -230,6 +231,8 @@ export class BoardComponent implements OnInit {
     this.state.gameOverImg = options.gameOverImg;
     this.state.wildcard = options.wildcard;
     this.state.wildcardMagic = options.wildcardMagic;
+    this.state.difficulty = options.difficulty ?? 'קליל';
+    this.state.setTimerDuration();
 
     await this.getWords();
     this.createEmptyBoard();
@@ -350,8 +353,7 @@ export class BoardComponent implements OnInit {
 
     c.isSelected = !c.isSelected;
 
-    if (this.state) this.state = { ... this.state };
-    this.stateChange.emit(this.state);
+    if (this.state) this.triggerStateChange();
     this.onMove.emit();
 
     if (!c.isSelected) { return; }
@@ -428,6 +430,12 @@ export class BoardComponent implements OnInit {
 
   speak(what: string) {
     this.TTS.speak(what);
+  }
+
+  /** Utility to trigger stateChange without breaking BoardState methods */
+  triggerStateChange() {
+    // This will emit the current state and trigger Angular change detection
+    this.stateChange.emit(this.state);
   }
 
   async animateRestartGame() {

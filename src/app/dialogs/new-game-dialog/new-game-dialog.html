@@ -11,6 +11,17 @@
 
 <mat-dialog-content>
 
+  <!-- Difficulty selection -->
+  <div style="margin-bottom: 12px;">
+    <label style="font-weight: bold; margin-left: 8px;">קושי:</label>
+    <mat-radio-group [(ngModel)]="difficulty" aria-label="Difficulty selection">
+      <mat-radio-button value="קליל" style="margin-left: 8px;">קלי קלות</mat-radio-button>
+      <mat-radio-button value="קל" style="margin-left: 8px;">קל</mat-radio-button>
+      <mat-radio-button value="קשה" style="margin-left: 8px;">קשה</mat-radio-button>
+      <mat-radio-button value="קשה מאוד">קשה מאוד</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
   <mat-radio-group [(ngModel)]="lettersCase">
     <mat-radio-button value="lower">abc | אותיות קטנות</mat-radio-button>
     <mat-radio-button value="upper">ABC | אותיות גדולות</mat-radio-button>
@@ -27,7 +38,7 @@
     @for (b of banks; track b; let i = $index) {
       <mat-grid-tile class="banks">
         <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
-          [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg , wildcard: b.wildcard}"
+          [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg , wildcard: b.wildcard, difficulty: difficulty}"
           mat-stroked-button>
           {{b.heb}}
         </button>

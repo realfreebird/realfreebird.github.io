@@ -1,4 +1,11 @@
 <div class="center" [class.gameOver]="isGameOver">
+  <!-- TEMP: Debug timer value for Playwright verification -->
+  <div *ngIf="state && state.timerDurationSec !== undefined">
+    <span style="font-size: 1.2em; color: #9e0142; background: #fffbe6; padding: 4px 12px; border-radius: 8px;">
+      Timer: {{ state.timerDurationSec === null ? 'No timer' : state.timerDurationSec + ' sec' }} ({{ state.difficulty }})
+    </span>
+  </div>
+
   <div class="words center">
     <!-- &nbsp;
     <button mat-stroked-button *ngFor="let w of words" class="wordButton" [class.wordFound]="w.found"

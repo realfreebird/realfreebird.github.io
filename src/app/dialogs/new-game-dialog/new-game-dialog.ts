@@ -11,6 +11,7 @@ import { StorageService } from 'src/app/services/storage.service';
 export class NewGameDialog implements OnInit {
 
   lettersCase: 'upper' | 'lower' = 'lower';
+  difficulty: 'קליל' | 'קל' | 'קשה' | 'קשה מאוד' = 'קליל';
   banks: any[] = [];
   cols = 2;
   loading = true;

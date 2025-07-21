@@ -67,9 +67,10 @@ export class BoardComponent implements OnInit {
 
 
   /** get n random words based on this.bank & this.wordsPerGame */
-  getWords() {
+  async getWords() {
     if (!this.bank) { return; }
-    this.state.words = this.wordsBankService.get(this.bank, this.wordsPerGame, this.isUpperCase).map(w => ({ ...w, found: false }));
+    const words = await this.wordsBankService.get(this.bank, this.wordsPerGame, this.isUpperCase);
+    this.state.words = words.map(w => ({ ...w, found: false }));
   }
 
   /** fill this.board with this.rows & this.cols empty cells */
@@ -218,7 +219,7 @@ export class BoardComponent implements OnInit {
     this.words.forEach(w => w.found = false);
   }
 
-  init(options: GameOptionsI) {
+  async init(options: GameOptionsI) {
     this.state = new BoardState();
     this.state.bank = options.bank ?? 'animals'; // FIXME !!!
     this.state.isUpperCase = options.isUpperCase;
@@ -228,11 +229,7 @@ export class BoardComponent implements OnInit {
     this.state.wildcard = options.wildcard;
     this.state.wildcardMagic = options.wildcardMagic;
 
-    // const bank = this.state.bank;
-    // if (!bank) throw "bank is null";
-    // const wildcard = this.wordsBankService.banks.find(x => x.eng === bank)?.wildcard;
-
-    this.getWords();
+    await this.getWords();
     this.createEmptyBoard();
     this.addWords2Board();
     this.fillTheBlanks();
@@ -268,7 +265,7 @@ export class BoardComponent implements OnInit {
 
   async restartGame(options: GameOptionsI) {
     // debugger;
-    this.init(options);
+    await this.init(options);
     this.wildCardPositions.clear();
     this.restartTimers();
     await this.animateRestartGame();
@@ -422,18 +419,27 @@ export class BoardComponent implements OnInit {
 
   }
 
+  async animateRestartGame1() {
+    return new Promise(resolve => {
+      const cells = [];
+      for (let a of this.state.cells) {
+        for (let c of a) { cells.push(c) }
+      }
+      from(cells).pipe(
+        concatMap(item => of(item).pipe(delay(30))),
+      ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })
+    })
+  }
+
   async animateRestartGame2() {
     return new Promise(resolve => {
-
       const cells = this.state.cells.flatMap(x => x).filter(c => !(c.isSolved || c.isSelected));
       const byLetter = _.chain(cells).groupBy(c => c.letter).value();
       const keys = Object.keys(byLetter).sort()
-
       const animate = from(keys).pipe(
         map(k => byLetter[k]),
         concatMap(item => of(item).pipe(delay(50))),
       );
-
       animate.subscribe({
         next: cells => { cells?.forEach(c => c.isFlashed = true) },
         complete: () => resolve(null)
@@ -441,29 +447,16 @@ export class BoardComponent implements OnInit {
     })
   }
 
-  async animateRestartGame1() {
-    return new Promise(resolve => {
-
-      const cells = [];
-      for (let a of this.state.cells) {
-        for (let c of a) { cells.push(c) }
-      }
-
-      from(cells).pipe(
-        concatMap(item => of(item).pipe(delay(30))),
-      ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })
-    })
-  }
-
   async animateRestartGame3() {
     return new Promise(resolve => {
-      const cells = []
+      const cells = [];
       for (let c = 0; c < this.state.cols; c++) {
         for (let r = 0; r < this.state.rows; r++) {
-          cells.push(this.state.cells[r][c]);
+          if (this.state.cells[r] && this.state.cells[r][c]) {
+            cells.push(this.state.cells[r][c]);
+          }
         }
       }
-
       from(cells).pipe(
         concatMap(item => of(item).pipe(delay(30))),
       ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })

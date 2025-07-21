@@ -11,23 +11,19 @@
 
 <mat-dialog-content>
 
-  <!-- [routerLink]="['/home' , {bank: b.eng}]" -->
-  <!-- <button mat-stroked-button *ngFor="let b of banks">
-  {{b.heb}}
-</button> -->
+  <mat-radio-group [(ngModel)]="lettersCase">
+    <mat-radio-button value="lower">abc | אותיות קטנות</mat-radio-button>
+    <mat-radio-button value="upper">ABC | אותיות גדולות</mat-radio-button>
+  </mat-radio-group>
 
-<!-- <div>
-cols={{cols}}
-</div> -->
+  <br>
 
-<mat-radio-group [(ngModel)]="lettersCase">
-  <mat-radio-button value="lower">abc | אותיות קטנות</mat-radio-button>
-  <mat-radio-button value="upper">ABC | אותיות גדולות</mat-radio-button>
-</mat-radio-group>
+  <div *ngIf="loading" style="text-align:center; margin: 20px 0;">
+    <mat-spinner diameter="40"></mat-spinner>
+    <div>טוען בנקים...</div>
+  </div>
 
-<br>
-
-  <mat-grid-list [cols]="cols" rowHeight="2:1">
+  <mat-grid-list *ngIf="!loading" [cols]="cols" rowHeight="2:1">
     @for (b of banks; track b; let i = $index) {
       <mat-grid-tile class="banks">
         <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
@@ -41,10 +37,3 @@ cols={{cols}}
 
 
 </mat-dialog-content>
-
-<div class="sticky-modal-footer" mat-dialog-actions align="center">
-
-  <button mat-button mat-dialog-close>ביטול</button>
-  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  <!-- <button mat-button [mat-dialog-close]="true">Delete</button> -->
-</div>

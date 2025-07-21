@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      debugger;
+      // debugger;
       if (this.state) this.restartTimers();
       else this.restartGame();
     }, 0);

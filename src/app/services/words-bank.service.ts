@@ -1,57 +1,105 @@
 import { Injectable } from '@angular/core';
-import banks from './words.json';
+import { environment } from '../../environments/environment';
+import * as XLSX from 'xlsx';
+import banksLocal from './words.json';
 
 export interface Word {
   eng: string,
   heb: string,
   ignore?: boolean
-  // found: boolean,
 }
 
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffle(array: any[]) {
   let currentIndex = array.length, randomIndex;
-
-  // While there remain elements to shuffle.
   while (currentIndex != 0) {
-
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
-
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
-
   return array;
 }
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordsBankService {
+  banks: any[] = [];
 
-  banks = banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
+  constructor() {
+  }
 
-  // getBanks() {
-  //   return banks.map(b => ({ eng: b.eng, heb: b.heb, wildcard: b.wildcard, /* wildcardMagic: b.wildcardMagic, */  randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg }))
-  // }
+  async loadBanks() {
+    if (environment.wordBankSource === 'google') {
+      try {
+        console.log('Loading banks from Google Sheets...');
+        const resp = await fetch(environment.googleSheetUrl);
+        console.log('Google Sheets response:', resp);
+        if (!resp.ok) throw new Error('Failed to fetch Google Sheet');
+        const data = await resp.arrayBuffer();
+        const workbook = XLSX.read(data, { type: 'array' });
+        this.banks = this.parseGoogleSheet(workbook);
+        // list the banks and number of words for each bank
+        console.log('Banks loaded from Google Sheets:', this.banks.map(b => `${b.eng} (${b.words.length})`));
+        if (!this.banks.length) throw new Error('No banks loaded from Google Sheet');
+        return;
+      } catch (e) {
+        console.error(e);
+        // fallback to local
+        this.banks = banksLocal;
+      }
+    } else {
+      this.banks = banksLocal;
+    }
+  }
 
-  get(bank: string, max: number, isUpperCase: boolean): Word[] {
-    const r = banks.find(x => x.eng === bank);
+  private parseGoogleSheet(workbook: XLSX.WorkBook): any[] {
+    // Each sheet is a bank
+    const banks: any[] = [];
+    workbook.SheetNames.forEach(sheetName => {
+      const ws = workbook.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      if (!rows.length) return;
+      // Find header row
+      const headerRow = rows[0] as string[];
+      if (!headerRow.includes('eng') || !headerRow.includes('heb')) return;
+      // Find where the word list ends (empty row or property table)
+      let wordRows: any[] = [];
+      let i = 1;
+      for (; i < rows.length; i++) {
+        const row = rows[i] as any[];
+        if (!row[0] && !row[1]) break;
+        if (row[0] === 'property' && row[1] === 'value') break;
+        wordRows.push(row);
+      }
+      const words = wordRows.map((r: any[]) => ({ eng: r[0], heb: r[1] })).filter(w => w.eng && w.heb);
+      // Parse properties if present
+      let props: any = {};
+      for (; i < rows.length; i++) {
+        const row = rows[i] as any[];
+        if (row[0] === 'property' && row[1] === 'value') continue;
+        if (row[0] && row[1]) props[row[0]] = row[1];
+      }
+      // Bank name: sheetName, or parse for display
+      banks.push({
+        eng: sheetName.split('|')[0] || sheetName,
+        heb: sheetName.split('|')[1] || '',
+        words,
+        ...props
+      });
+    });
+    return banks;
+  }
+
+  async get(bank: string, max: number, isUpperCase: boolean): Promise<Word[]> {
+    const r = this.banks.find(x => x.eng === bank);
     if (r) {
       let words0: Word[] = [...(r.words as Word[]).filter(w =>!w.ignore)];
       const f = (s: string) => isUpperCase ? s.toUpperCase() : s.toLocaleLowerCase();
       const words = words0.map(w => ({ ...w, eng: f(w.eng) }))
       const ret = shuffle(words).splice(0, max);
-      // console.log('ret', ret);
-      // debugger;
       return ret;
     }
     return [];
   }
-
-  constructor() { }
 }

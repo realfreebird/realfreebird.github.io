@@ -1,0 +1,9 @@
+{
+  "/wordbank": {
+    "target": "https://docs.google.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": { "^/wordbank": "" },
+    "logLevel": "debug"
+  }
+}

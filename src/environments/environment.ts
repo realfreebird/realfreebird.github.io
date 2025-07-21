@@ -3,7 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // wordBankSource: 'local', // 'google' or 'local'
+  wordBankSource: 'google', // 'google' or 'local'
+  // https://docs.google.com/spreadsheets/d/e/2PACX-1vTfKqflAKmmiKZA7xyJwy4M9893yiHzlPyf8IUokU2d5PvdiNCTmPQWArOva-LFeQ/pub?output=xlsx
+  // googleSheetUrl: '/wordbank/spreadsheets/d/{SHEET_ID}/export?format=xlsx' // replace {SHEET_ID} as needed
+  googleSheetUrl: '/wordbank/spreadsheets/d/e/2PACX-1vTfKqflAKmmiKZA7xyJwy4M9893yiHzlPyf8IUokU2d5PvdiNCTmPQWArOva-LFeQ/pub?output=xlsx'
 };
 
 /*

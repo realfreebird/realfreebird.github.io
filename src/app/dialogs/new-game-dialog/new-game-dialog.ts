@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WordsBankService } from 'src/app/services/services';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
     selector: 'app-new-game-dialog',
@@ -10,32 +11,30 @@ import { WordsBankService } from 'src/app/services/services';
 export class NewGameDialog implements OnInit {
 
   lettersCase: 'upper' | 'lower' = 'lower';
-  banks;
+  banks: any[] = [];
   cols = 2;
+  loading = true;
 
-  constructor(public wordsBankService: WordsBankService) {
-    this.banks = wordsBankService.banks;
+  constructor(public wordsBankService: WordsBankService, public storageService: StorageService) {
+    // Bank loading moved to ngOnInit
+  }
+
+  async ngOnInit(): Promise<void> {
+    // Clear saved state to force reload of banks
+    localStorage.removeItem('state');
+    this.loading = true;
+    await this.wordsBankService.loadBanks();
+    this.banks = this.wordsBankService.banks;
     const n = this.banks.length;
     if (n === 0) {
       throw new Error('failed to fetch banks');
     }
-
     for (let i = 5; i > 0; i--) {
       if (n % i === 0) {
         this.cols = i; break;
       }
     }
-
-    // if (n <= 5) this.cols = n;
-    // else {
-
-    //   for (this.cols = 5; this.cols > 0; this.cols--) {
-    //     if (n % this.cols == 0) break;
-    //   }
-    // }
-  }
-
-  ngOnInit(): void {
+    this.loading = false;
   }
 
 }

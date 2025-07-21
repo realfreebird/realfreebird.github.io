@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -23,6 +24,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatDialogModule,
     MatGridListModule,
     MatRadioModule,
+    MatProgressSpinnerModule,
   ]
 })
 export class MaterialModule { }

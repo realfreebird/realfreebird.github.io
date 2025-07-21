@@ -33,12 +33,14 @@ export interface RowCellSelection {
 
 export class BoardState {
     words: WordZ[] = [];
-    cells: Array<Array<Cell>> = []
+    cells: Array<Array<Cell>> = [];
     isGameOver = false;
     gameOverSoundFile!: string;
     gameOverImg!: string;
     difficulty: 'קליל' | 'קל' | 'קשה' | 'קשה מאוד' = 'קליל';
     timerDurationSec: number | null = null;
+    points: number = 0; // Points system
+    lives: number = 3; // Lives system for 'קשה מאוד'
     constructor(
         public rows = 8,
         public cols = 8,
@@ -50,6 +52,10 @@ export class BoardState {
         public wildcard: string | null = null,
         public wildcardMagic = true
     ) {
+        // Guarantee all properties are valid
+        this.lives = typeof this.lives === 'number' ? this.lives : Number(this.lives) || 0;
+        this.words = Array.isArray(this.words) ? this.words : [];
+        this.cells = Array.isArray(this.cells) ? this.cells : [];
         this.setTimerDuration();
     }
     setTimerDuration() {
@@ -65,5 +71,12 @@ export class BoardState {
             const multiplier = multipliers[this.difficulty] ?? 1.0;
             this.timerDurationSec = Math.round((baseTimePerWord * this.wordsPerGame) * multiplier);
         }
+        // Set lives for 'קשה מאוד'
+        if (this.difficulty === 'קשה מאוד') {
+            this.lives = 3;
+        } else {
+            this.lives = 0;
+        }
+        this.lives = typeof this.lives === 'number' ? this.lives : Number(this.lives) || 0;
     }
 }

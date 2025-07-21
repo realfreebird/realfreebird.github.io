@@ -49,6 +49,9 @@ td.isFlashed {
   color: black;
 }
 
+.penalty-flash {
+  animation: penaltyFlash 0.4s linear;
+}
 
 @keyframes rotation {
   from {
@@ -78,6 +81,11 @@ td.isFlashed {
   to {
     color: black;
   }
+}
+
+@keyframes penaltyFlash {
+  0% { background-color: #ffcccc; }
+  100% { background-color: transparent; }
 }
 
 

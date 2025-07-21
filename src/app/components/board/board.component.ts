@@ -71,12 +71,42 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   private timerInterval: any = null;
 
+  displayedPoints: number = 0;
+  private pointsAnimationInterval: any = null;
+
   ngOnInit(): void {
+    // Fail-safe: guarantee all state properties are valid
+    if (this.state) {
+      if (typeof this.state.lives !== 'number') this.state.lives = Number(this.state.lives) || 0;
+      if (!Array.isArray(this.state.words)) this.state.words = [];
+      if (!Array.isArray(this.state.cells)) this.state.cells = [];
+    }
+    this.displayedPoints = this.state?.points ?? 0;
     this.startTimerIfNeeded();
   }
 
   ngOnDestroy(): void {
     this.clearTimer();
+    if (this.pointsAnimationInterval) clearInterval(this.pointsAnimationInterval);
+  }
+
+  ngOnChanges(): void {
+    this.animatePoints();
+  }
+
+  private animatePoints() {
+    if (!this.state) return;
+    if (this.pointsAnimationInterval) clearInterval(this.pointsAnimationInterval);
+    const target = this.state.points;
+    const step = target > this.displayedPoints ? 1 : -1;
+    if (this.displayedPoints === target) return;
+    this.pointsAnimationInterval = setInterval(() => {
+      if (this.displayedPoints === target) {
+        clearInterval(this.pointsAnimationInterval);
+        return;
+      }
+      this.displayedPoints += step;
+    }, 15);
   }
 
   private startTimerIfNeeded() {
@@ -381,6 +411,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (c.isSolved) { return; /* nothing todo */ }
 
     // Unselect all selected cells in other rows if selecting a cell in a new row
+    let penaltyTriggered = false;
     if (!c.isSelected) {
       for (let r = 0; r < this.rows; r++) {
         if (r == c.r) { continue };
@@ -410,6 +441,28 @@ export class BoardComponent implements OnInit, OnDestroy {
           for (let cell of row) {
             if (cell.isSelected) cell.isSelected = false;
           }
+          // Penalty for non-adjacent selection in 'קשה' and 'קשה מאוד'
+          if (this.state && (this.state.difficulty === 'קשה' || this.state.difficulty === 'קשה מאוד')) {
+            this.state.points = Math.max(0, this.state.points - 20);
+            penaltyTriggered = true;
+            console.log('Penalty applied: -20 points');
+            this.animatePoints();
+            // Decrement lives for 'קשה מאוד'
+            if (this.state.difficulty === 'קשה מאוד') {
+              this.state.lives = Math.max(0, this.state.lives - 1);
+              if (this.state.lives === 0) {
+                this.state.isGameOver = true;
+                this.stateChange.emit(this.state);
+                this.playSound('gameOver');
+                this.clearTimer();
+                return;
+              }
+            }
+            this.stateChange.emit(this.state);
+            this.playSound('surprised-child-voice-sound-113127.mp3'); // Penalty sound
+            // Animate penalty (flash board or points)
+            this.animatePenalty();
+          }
         }
       }
     }
@@ -435,8 +488,12 @@ export class BoardComponent implements OnInit, OnDestroy {
     if (word) {
       this.markSolved(selCell);
       word.found = true;
-      this.stateChange.emit(this.state);
-
+      // Add points for correct word found
+      if (this.state) {
+        this.state.points += word.eng.length * 10;
+        this.stateChange.emit(this.state);
+        this.animatePoints();
+      }
       this.playSound('wordFound');
       await sleep(500);
 
@@ -447,6 +504,12 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.state.isGameOver = this.words.every(w => w.found);
     if (this.isGameOver) {
+      // Add bonus points for remaining seconds
+      if (this.state && this.state.timerDurationSec && this.state.timerDurationSec > 0) {
+        this.state.points += this.state.timerDurationSec * 5;
+        this.stateChange.emit(this.state);
+        this.animatePoints();
+      }
       this.stateChange.emit(this.state);
       setTimeout(() => {
         const sound = this.state.gameOverSoundFile ?? 'gameOver'
@@ -568,6 +631,25 @@ export class BoardComponent implements OnInit, OnDestroy {
         concatMap(item => of(item).pipe(delay(30))),
       ).subscribe({ next: x => x.isFlashed = true, complete: () => resolve(null) })
     })
+  }
+
+  animatePenalty() {
+    // Simple animation: flash the points counter or board
+    const boardDiv = document.querySelector('.center');
+    if (boardDiv) {
+      boardDiv.classList.add('penalty-flash');
+      setTimeout(() => boardDiv.classList.remove('penalty-flash'), 400);
+    }
+  }
+
+  get livesArray(): number[] {
+    const n = Number(this.state?.lives ?? 0);
+    console.log('livesArray getter:', this.state?.lives, '->', n);
+    return Array.from({ length: n }, (_, i) => i);
+  }
+
+  get showLives(): boolean {
+    return this.state?.difficulty === 'קשה מאוד' && typeof this.state?.lives === 'number' && this.state.lives > 0;
   }
 }
 

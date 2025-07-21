@@ -32,12 +32,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   constructor(public route: ActivatedRoute, private dialogs: MatDialog, public navCompo: NavigationComponent, public storageService: StorageService) {
-    const state: BoardState | null = this.storageService.get('state')
-    // console.log('state', state)
-    // debugger;
-    if (state) {
-      this.state = state;
-    }
+    // TODO: Storage temporarily disabled for debugging
+    // const state: BoardState | null = this.storageService.get('state')
+    // if (state) {
+    //   // Ensure lives is always a number
+    //   if (typeof state.lives !== 'number') {
+    //     state.lives = Number(state.lives) || 0;
+    //   }
+    //   if (isNaN(state.lives)) {
+    //     // Remove corrupted state and force new game
+    //     localStorage.removeItem('state');
+    //     this._state = new BoardState();
+    //     return;
+    //   }
+    //   this.state = state;
+    // }
     // else this.state = new BoardState()
   }
 
@@ -53,7 +62,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   private saveState() {
-    this.storageService.set('state', this.state);
+    // TODO: Storage temporarily disabled for debugging
+    // this.storageService.set('state', this.state);
   }
 
   restartTimers() {
@@ -62,6 +72,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   startingNewGame = false;
   restartGame() {
+    // TODO: Storage temporarily disabled for debugging
+    // localStorage.removeItem('state'); // Always clear state before new game
     const params: MatDialogConfig = {
       panelClass: 'new-game-dialog-panel',
       width: '500px',

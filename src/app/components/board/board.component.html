@@ -3,6 +3,16 @@
   <ng-container *ngIf="state && state.timerDurationSec !== undefined && state.timerDurationSec !== null">
     <app-seven-segment-timer [seconds]="state.timerDurationSec" [urgent]="state.timerDurationSec <= 5 && state.timerDurationSec > 0"></app-seven-segment-timer>
   </ng-container>
+  <!-- Points Counter UI -->
+  <div *ngIf="state">
+    <span style="font-size: 1.2em; color: #01429e; background: #e6fff7; padding: 4px 12px; border-radius: 8px; margin-left: 8px;">
+      נקודות: {{ displayedPoints }}
+    </span>
+    <!-- Lives UI for 'קשה מאוד' -->
+    <span *ngIf="showLives" style="font-size: 2em; color: #e53935; margin-right: 12px; vertical-align: middle;">
+      <ng-container *ngFor="let l of livesArray">❤️</ng-container>
+    </span>
+  </div>
   <!-- TEMP: Debug timer value for Playwright verification -->
   <div *ngIf="state && state.timerDurationSec !== undefined">
     <span style="font-size: 1.2em; color: #9e0142; background: #fffbe6; padding: 4px 12px; border-radius: 8px;">

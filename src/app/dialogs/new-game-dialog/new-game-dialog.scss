@@ -52,7 +52,14 @@ $palette-color5: #5e4fa2;
 // $palette-color7: #abdda4;
 // $palette-color8: #66c2a5;
 
-.bank-num-1 { color: white; background-color: $palette-color1;}
+.bank-num-1 {
+  color: darkblue;
+  background: repeating-linear-gradient(135deg, #ffb6ec, #ffb6ec 10px, #fff 10px, #fff 20px);
+  border: 2px solid #e75480;
+  box-shadow: 0 0 8px #e7548088;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
 .bank-num-2 { color: white; background-color: $palette-color2;}
 .bank-num-3 { color: white; background-color: $palette-color3;}
 .bank-num-4 { color: white; background-color: $palette-color4;}

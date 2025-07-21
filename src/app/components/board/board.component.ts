@@ -171,8 +171,9 @@ export class BoardComponent implements OnInit {
   }
 
   placeWildcard() {
+    if (!this.state.wildcard) return; // No wildcard defined, do nothing
     const maxAttempts = this.rows * this.cols * 2; // Watchdog to prevent infinite loops
-    const wildcard = this.state.wildcard ?? '*';
+    const wildcard = this.state.wildcard;
     let attempts = 0;
     while (attempts < maxAttempts) {
       const r = Math.floor(Math.random() * this.rows);
@@ -191,6 +192,7 @@ export class BoardComponent implements OnInit {
   wildCardPositions = new Set<string>();
 
   addWildCards() {
+    if (!this.state.wildcard) return; // No wildcard defined, do nothing
     const n = Math.floor((this.rows * this.cols) / 5);
     console.log('addWildCards', this.state.wildcard, n)
     for (let i = 0; i < n; i++) {

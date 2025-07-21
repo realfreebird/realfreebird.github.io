@@ -42,7 +42,6 @@ export class WordsBankService {
         // list the banks and number of words for each bank
         console.log('Banks loaded from Google Sheets:', this.banks.map(b => `${b.eng} (${b.words.length})`));
         if (!this.banks.length) throw new Error('No banks loaded from Google Sheet');
-        return;
       } catch (e) {
         console.error(e);
         // fallback to local
@@ -50,6 +49,18 @@ export class WordsBankService {
       }
     } else {
       this.banks = banksLocal;
+    }
+    // --- Add dynamic combined bank 'הפתעה' ---
+    if (this.banks && this.banks.length) {
+      const allWords = this.banks.flatMap(b => b.words).filter(w => w && w.eng && w.heb && !w.ignore);
+      const surpriseBank = {
+        eng: 'surprise',
+        heb: 'הפתעה',
+        words: allWords,
+        wildcard: '🌸',
+        // randomColors: true
+      };
+      this.banks = [surpriseBank, ...this.banks];
     }
   }
 

@@ -19,8 +19,15 @@
       <mat-radio-button value="קל" style="margin-left: 8px;">קל</mat-radio-button>
       <mat-radio-button value="קשה" style="margin-left: 8px;">קשה</mat-radio-button>
       <mat-radio-button value="קשה מאוד">קשה מאוד</mat-radio-button>
+      <!-- <mat-radio-button value="קליל" style="margin-left: 8px;">😃</mat-radio-button>
+      <mat-radio-button value="קל" style="margin-left: 8px;">🙂</mat-radio-button>
+      <mat-radio-button value="קשה" style="margin-left: 8px;">😠</mat-radio-button>
+      <mat-radio-button value="קשה מאוד">😱</mat-radio-button> -->
+
     </mat-radio-group>
   </div>
+
+  <hr>
 
   <mat-radio-group [(ngModel)]="lettersCase">
     <mat-radio-button value="lower">abc | אותיות קטנות</mat-radio-button>
@@ -36,13 +43,13 @@
 
   <mat-grid-list *ngIf="!loading" [cols]="cols" rowHeight="2:1">
     @for (b of banks; track b; let i = $index) {
-      <mat-grid-tile class="banks">
-        <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
-          [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg , wildcard: b.wildcard, difficulty: difficulty}"
-          mat-stroked-button>
-          {{b.heb}}
-        </button>
-      </mat-grid-tile>
+    <mat-grid-tile class="banks">
+      <button [class]="'bank-num-' + (i+1)" [tabindex]="-1"
+        [mat-dialog-close]="{bank: b.eng, isUpperCase: lettersCase === 'upper', randomColors: b.randomColors, gameOverSoundFile: b.gameOverSoundFile, gameOverImg: b.gameOverImg , wildcard: b.wildcard, difficulty: difficulty}"
+        mat-stroked-button>
+        {{b.heb}}
+      </button>
+    </mat-grid-tile>
     }
   </mat-grid-list>
 

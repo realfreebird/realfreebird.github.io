@@ -39,6 +39,8 @@ interface GameOptionsI {
 })
 export class BoardComponent implements OnInit, OnDestroy {
 
+  debug = false;
+
   @Input() state!: BoardState
   @Output() stateChange = new EventEmitter<BoardState>();
 

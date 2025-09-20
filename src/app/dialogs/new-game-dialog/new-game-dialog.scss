@@ -12,9 +12,10 @@ h2 {
 
 mat-radio-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 15px 0;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 mat-radio-button {

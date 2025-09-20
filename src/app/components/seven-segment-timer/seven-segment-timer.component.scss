@@ -33,6 +33,10 @@
   text-shadow: 0 0 8px #ff2d00;
 }
 
+.seven-segment-timer {
+  padding: 20px;
+}
+
 .seven-segment-timer.urgent .digit,
 .seven-segment-timer.urgent .colon {
   color: #fff;

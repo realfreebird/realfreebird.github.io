@@ -1,24 +1,30 @@
 <div class="center" [class.gameOver]="isGameOver">
   <!-- Timer UI -->
   <ng-container *ngIf="state && state.timerDurationSec !== undefined && state.timerDurationSec !== null">
-    <app-seven-segment-timer [seconds]="state.timerDurationSec" [urgent]="state.timerDurationSec <= 5 && state.timerDurationSec > 0"></app-seven-segment-timer>
+    <app-seven-segment-timer [seconds]="state.timerDurationSec"
+      [urgent]="state.timerDurationSec <= 5 && state.timerDurationSec > 0"></app-seven-segment-timer>
   </ng-container>
   <!-- Points Counter UI -->
-  <div *ngIf="state">
-    <span style="font-size: 1.2em; color: #01429e; background: #e6fff7; padding: 4px 12px; border-radius: 8px; margin-left: 8px;">
-      נקודות: {{ displayedPoints }}
-    </span>
+  <div *ngIf="state" class="points">
+    <div
+      style="font-size: 1.5em; color: #01429e; background: #e6fff7; padding: 4px 12px; border-radius: 8px; margin-left: 8px;">
+       {{ displayedPoints }}
+       נק'
+    </div>
     <!-- Lives UI for 'קשה מאוד' -->
-    <span *ngIf="showLives" style="font-size: 2em; color: #e53935; margin-right: 12px; vertical-align: middle;">
+    <div *ngIf="showLives" style="font-size: 2em; color: #e53935; margin-right: 12px; vertical-align: middle;">
       <ng-container *ngFor="let l of livesArray">❤️</ng-container>
-    </span>
+    </div>
   </div>
   <!-- TEMP: Debug timer value for Playwright verification -->
-  <div *ngIf="state && state.timerDurationSec !== undefined">
+  @if (debug && state && state.timerDurationSec !== undefined) {
+  <div>
     <span style="font-size: 1.2em; color: #9e0142; background: #fffbe6; padding: 4px 12px; border-radius: 8px;">
-      Timer: {{ state.timerDurationSec === null ? 'No timer' : state.timerDurationSec + ' sec' }} ({{ state.difficulty }})
+      Timer: {{ state.timerDurationSec === null ? 'No timer' : state.timerDurationSec + ' sec' }} ({{ state.difficulty
+      }})
     </span>
   </div>
+  }
 
   <div class="words center">
     <!-- &nbsp;
@@ -31,35 +37,35 @@
     <!-- rowHeight="2:1" -->
     <mat-grid-list [cols]="2" [rowHeight]="44">
       @for (w of words; track w) {
-        <mat-grid-tile>
-          <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
-            {{w.heb}}
-            @if (showEngWords) {
-              |
-              {{w.eng}}
-            }
-          </button>
-        </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-stroked-button class="wordButton" [class.wordFound]="w.found" (click)="speak(w.eng)">
+          {{w.heb}}
+          @if (showEngWords) {
+          |
+          {{w.eng}}
+          }
+        </button>
+      </mat-grid-tile>
       }
     </mat-grid-list>
   </div>
 
   <table class="center FIXME-CENTER-VERT">
     @for (r of cells; track r) {
-      <tr>
-        @for (c of r; track c) {
-          <td [ngClass]="c.xtraClass" [class.cellSelected]="c.isSelected"
-            [class.cellSolved]="c.isSolved" [class.isFlashed]="c.isFlashed" (click)="toggleCellSelection(c)">
-            <!-- {{c.xtraClass}} -->
-            <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
-            {{c.displayLetter}}
-          <!-- </button> -->
-        </td>
+    <tr>
+      @for (c of r; track c) {
+      <td [ngClass]="c.xtraClass" [class.cellSelected]="c.isSelected" [class.cellSolved]="c.isSolved"
+        [class.isFlashed]="c.isFlashed" (click)="toggleCellSelection(c)">
+        <!-- {{c.xtraClass}} -->
+        <!-- <button style="min-winth:0; border: none; background-color: transparent;"> -->
+        {{c.displayLetter}}
+        <!-- </button> -->
+      </td>
       }
     </tr>
-  }
-</table>
-@if (isGameOver) {
+    }
+  </table>
+  @if (isGameOver) {
   <div class="game-over">
     <div class="game-over-text">GAME OVER</div>
     <button mat-raised-button color="warn" (click)="restartGameFromButton()">נסה שנית</button>
@@ -68,7 +74,7 @@
       <img src="assets/{{state.gameOverImg}}" alt="יום הולדת שמח" style="width:100%">
     </div>
   </div>
-}
+  }
 </div>
 
 

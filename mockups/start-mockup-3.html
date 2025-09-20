@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>פאזל מילים לזוהר - Start 3</title>
+  <style>
+    body {
+      background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+      font-family: 'Baloo 2', 'Arial Rounded MT Bold', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .start-box {
+      background: rgba(255,255,255,0.98);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(161,196,253,0.18);
+      padding: 2.2rem 1.2rem;
+      max-width: 420px;
+      width: 97vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.7rem;
+      border: 3px solid #a1c4fd;
+    }
+    .game-title {
+      font-size: 2.3rem;
+      color: #2196f3;
+      font-weight: bold;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      text-shadow: 1px 1px 0 #fff, 2px 2px 8px #a1c4fd;
+    }
+    .option-block {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .option-title {
+      font-size: 1.15rem;
+      color: #2196f3;
+      font-weight: 500;
+    }
+    .case-row {
+      display: flex;
+      gap: 2.2rem;
+      justify-content: center;
+    }
+    .case-row label {
+      font-size: 1.1rem;
+      color: #2196f3;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cat-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+    .cat-chip {
+      background: #c2e9fb;
+      color: #2196f3;
+      border: 2px solid #a1c4fd;
+      border-radius: 18px;
+      padding: 0.5rem 1.1rem;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+    }
+    .cat-chip.selected, .cat-chip:hover {
+      background: #2196f3;
+      color: #fff;
+      transform: scale(1.09);
+    }
+    .start-btn {
+      background: #2196f3;
+      color: #fff;
+      border: none;
+      border-radius: 28px;
+      padding: 1rem 2.5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+      box-shadow: 0 4px 16px rgba(161,196,253,0.18);
+      cursor: pointer;
+      margin-top: 1.2rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .start-btn:active {
+      background: #1976d2;
+      transform: scale(0.97);
+    }
+    @media (max-width: 500px) {
+      .game-title { font-size: 1.3rem; }
+      .start-box { padding: 1.1rem 0.2rem; }
+      .cat-chip { font-size: 0.9rem; padding: 0.4rem 0.7rem; }
+      .start-btn { font-size: 1.05rem; padding: 0.7rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="start-box">
+    <div class="game-title">פאזל מילים לזוהר</div>
+    <div class="option-block">
+      <div class="option-title">בחרו אותיות:</div>
+      <div class="case-row">
+        <label><input type="radio" name="case" value="lower" checked> abc | אותיות קטנות</label>
+        <label><input type="radio" name="case" value="upper"> ABC | אותיות גדולות</label>
+      </div>
+    </div>
+    <div class="option-block">
+      <div class="option-title">בחרו נושא:</div>
+      <div class="cat-list">
+        <div class="cat-chip" data-cat="המממ">המממ</div>
+        <div class="cat-chip" data-cat="🍎">🍎</div>
+        <div class="cat-chip" data-cat="🌠">🌠</div>
+        <div class="cat-chip" data-cat="ים">ים</div>
+        <div class="cat-chip" data-cat="טבע">טבע</div>
+        <div class="cat-chip" data-cat="crazy cat">crazy cat</div>
+        <div class="cat-chip" data-cat="🎂">🎂</div>
+        <div class="cat-chip" data-cat="חיות">חיות</div>
+        <div class="cat-chip" data-cat="צבעים">צבעים</div>
+        <div class="cat-chip" data-cat="מספרים">מספרים</div>
+        <div class="cat-chip" data-cat="שונות">שונות</div>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startGame()">התחל משחק</button>
+  </div>
+  <script>
+    let selectedCat = null;
+    document.querySelectorAll('.cat-chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedCat = this.dataset.cat;
+      });
+    });
+    function startGame() {
+      const caseVal = document.querySelector('input[name="case"]:checked').value;
+      if (!selectedCat) {
+        alert('בחרו נושא!');
+        return;
+      }
+      alert('התחלת משחק!\nאותיות: ' + (caseVal === 'lower' ? 'קטנות' : 'גדולות') + '\nנושא: ' + selectedCat);
+      // window.location.href = '/play?case=' + caseVal + '&cat=' + encodeURIComponent(selectedCat);
+    }
+  </script>
+</body>
+</html>

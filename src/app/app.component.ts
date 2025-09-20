@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import packageJson from '../../package.json';
 
-
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  standalone: false
 })
 export class AppComponent {
-  constructor(title: Title) {
+  constructor(title: Title, private router: Router) {
     const s  = 'פאזל מילים לזוהר | v' + packageJson.version;
     title.setTitle(s);
+  }
+
+  isStartPage() {
+    return this.router.url === '/' || this.router.url.startsWith('/?');
   }
 
 //   playAudio() {

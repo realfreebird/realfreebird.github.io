@@ -1,0 +1,50 @@
+<div class="start-root">
+    <div class="floating-letters top">
+        <span *ngFor="let letter of floatingLettersTop"
+            [ngStyle]="{'left': letter.x + '%', 'top': letter.y + '%', 'animation-delay': letter.delay + 's', 'font-size': letter.size + 'px', '--float-dist': letter.dist + 'px'}"
+            class="floating-letter">{{letter.char}}</span>
+    </div>
+    <div class="container">
+        <h1>
+            פאזל מילים <span class="title-glow">לזוהר</span>
+        </h1>
+        <div class="option-group">
+            <div class="option-label">
+                אותיות
+            </div>
+            <div class="case-options">
+                <button class="case-btn" [class.selected]="selectedCase === 'lower'" (click)="selectCase('lower')">abc |
+                    אותיות קטנות</button>
+                <button class="case-btn" [class.selected]="selectedCase === 'upper'" (click)="selectCase('upper')">ABC |
+                    אותיות גדולות</button>
+            </div>
+        </div>
+        <div class="option-group">
+            <div class="option-label">רמת קושי</div>
+            <div class="difficulty-options">
+                <button class="difficulty-btn" [class.selected]="selectedDiff === 'easy'"
+                    (click)="selectDifficulty('easy')">קל</button>
+                <button class="difficulty-btn" [class.selected]="selectedDiff === 'medium'"
+                    (click)="selectDifficulty('medium')">בינוני</button>
+                <button class="difficulty-btn" [class.selected]="selectedDiff === 'hard'"
+                    (click)="selectDifficulty('hard')">קשה</button>
+            </div>
+        </div>
+        <div class="option-group">
+            <div class="option-label">נושא</div>
+            <div class="categories">
+                <button class="cat-btn" *ngFor="let cat of categories; let i = index"
+                    [class.selected]="selectedCat === cat.value" [class.topic-animate]="i === topicAnimIndex"
+                    (click)="selectCategory(cat.value)">{{cat.label}}</button>
+            </div>
+        </div>
+        <button class="start-btn breathing" (click)="startGame()">
+            התחלה
+        </button>
+    </div>
+    <div class="floating-letters bottom">
+        <span *ngFor="let letter of floatingLettersBottom"
+            [ngStyle]="{'left': letter.x + '%', 'top': letter.y + '%', 'animation-delay': letter.delay + 's', 'font-size': letter.size + 'px', '--float-dist': letter.dist + 'px'}"
+            class="floating-letter">{{letter.char}}</span>
+    </div>
+</div>

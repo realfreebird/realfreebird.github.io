@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>פאזל מילים לזוהר - Start 1</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+      font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: rgba(255,255,255,0.95);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      padding: 2rem 1rem;
+      max-width: 400px;
+      width: 95vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    h1 {
+      color: #ff6f61;
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 8px #ffb88c;
+    }
+    .option-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .option-label {
+      font-size: 1.1rem;
+      color: #333;
+      margin-bottom: 0.2rem;
+    }
+    .case-options {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .case-options label {
+      font-size: 1.1rem;
+      color: #ff6f61;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .cat-btn {
+      background: linear-gradient(90deg, #fcb69f 0%, #ffecd2 100%);
+      border: none;
+      border-radius: 16px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(255,111,97,0.15);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .cat-btn.selected, .cat-btn:hover {
+      background: linear-gradient(90deg, #ff6f61 0%, #fcb69f 100%);
+      color: #fff;
+      transform: scale(1.08);
+    }
+    .start-btn {
+      background: linear-gradient(90deg, #ff6f61 0%, #fcb69f 100%);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.9rem 2.2rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      box-shadow: 0 4px 16px rgba(255,111,97,0.18);
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .start-btn:active {
+      background: #ff6f61;
+      transform: scale(0.97);
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.4rem; }
+      .container { padding: 1rem 0.2rem; }
+      .cat-btn { font-size: 0.95rem; padding: 0.5rem 0.7rem; }
+      .start-btn { font-size: 1.05rem; padding: 0.7rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>פאזל מילים לזוהר</h1>
+    <div class="option-group">
+      <div class="option-label">בחרו אותיות:</div>
+      <div class="case-options">
+        <label><input type="radio" name="case" value="lower" checked> abc | אותיות קטנות</label>
+        <label><input type="radio" name="case" value="upper"> ABC | אותיות גדולות</label>
+      </div>
+    </div>
+    <div class="option-group">
+      <div class="option-label">בחרו נושא:</div>
+      <div class="categories">
+        <button class="cat-btn" data-cat="המממ">המממ</button>
+        <button class="cat-btn" data-cat="🍎">🍎</button>
+        <button class="cat-btn" data-cat="🌠">🌠</button>
+        <button class="cat-btn" data-cat="ים">ים</button>
+        <button class="cat-btn" data-cat="טבע">טבע</button>
+        <button class="cat-btn" data-cat="crazy cat">crazy cat</button>
+        <button class="cat-btn" data-cat="🎂">🎂</button>
+        <button class="cat-btn" data-cat="חיות">חיות</button>
+        <button class="cat-btn" data-cat="צבעים">צבעים</button>
+        <button class="cat-btn" data-cat="מספרים">מספרים</button>
+        <button class="cat-btn" data-cat="שונות">שונות</button>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startGame()">התחל משחק</button>
+  </div>
+  <script>
+    let selectedCat = null;
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedCat = this.dataset.cat;
+      });
+    });
+    function startGame() {
+      const caseVal = document.querySelector('input[name="case"]:checked').value;
+      if (!selectedCat) {
+        alert('בחרו נושא!');
+        return;
+      }
+      // Simulate navigation
+      alert('התחלת משחק!\nאותיות: ' + (caseVal === 'lower' ? 'קטנות' : 'גדולות') + '\nנושא: ' + selectedCat);
+      // window.location.href = '/play?case=' + caseVal + '&cat=' + encodeURIComponent(selectedCat);
+    }
+  </script>
+</body>
+</html>

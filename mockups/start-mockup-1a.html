@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>פאזל מילים לזוהר - Start 1a (Purple)</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #c471f5 0%, #fa71cd 100%);
+      font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      background: rgba(255,255,255,0.97);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(196,113,245,0.15);
+      padding: 2rem 1rem;
+      max-width: 400px;
+      width: 95vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    h1 {
+      color: #a259c6;
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 2px 2px 0 #fff, 4px 4px 8px #c471f5;
+    }
+    .option-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .option-label {
+      font-size: 1.1rem;
+      color: #5e3370;
+      margin-bottom: 0.2rem;
+    }
+    .case-options {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    .case-btn {
+      background: linear-gradient(90deg, #a259c6 0%, #c471f5 100%);
+      border: none;
+      border-radius: 16px;
+      padding: 0.5rem 1.2rem;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      opacity: 0.7;
+      outline: none;
+    }
+    .case-btn.selected, .case-btn:focus {
+      background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+      opacity: 1;
+      transform: scale(1.08);
+      box-shadow: 0 2px 8px rgba(162,89,198,0.15);
+    }
+    .difficulty-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+    .difficulty-btn {
+      background: linear-gradient(90deg, #e0c3fc 0%, #8ec5fc 100%);
+      border: none;
+      border-radius: 14px;
+      padding: 0.4rem 1.1rem;
+      font-size: 1rem;
+      color: #5e3370;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      opacity: 0.7;
+      outline: none;
+    }
+    .difficulty-btn.selected, .difficulty-btn:focus {
+      background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+      color: #fff;
+      opacity: 1;
+      transform: scale(1.08);
+      box-shadow: 0 2px 8px rgba(162,89,198,0.15);
+    }
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .cat-btn {
+      background: linear-gradient(90deg, #e0c3fc 0%, #a259c6 100%);
+      border: none;
+      border-radius: 16px;
+      padding: 0.6rem 1.2rem;
+      font-size: 1.1rem;
+      color: #5e3370;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(162,89,198,0.10);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      opacity: 0.8;
+    }
+    .cat-btn.selected, .cat-btn:hover {
+      background: linear-gradient(90deg, #7b2ff2 0%, #f357a8 100%);
+      color: #fff;
+      opacity: 1;
+      transform: scale(1.08);
+    }
+    .start-btn {
+      background: linear-gradient(90deg, #7b2ff2 0%, #a259c6 100%);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.9rem 2.2rem;
+      font-size: 1.3rem;
+      font-weight: bold;
+      box-shadow: 0 4px 16px rgba(162,89,198,0.18);
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.2s, transform 0.2s;
+      opacity: 0.95;
+    }
+    .start-btn:active {
+      background: #7b2ff2;
+      transform: scale(0.97);
+    }
+    @media (max-width: 500px) {
+      h1 { font-size: 1.4rem; }
+      .container { padding: 1rem 0.2rem; }
+      .cat-btn { font-size: 0.95rem; padding: 0.5rem 0.7rem; }
+      .start-btn { font-size: 1.05rem; padding: 0.7rem 1.2rem; }
+      .difficulty-btn { font-size: 0.9rem; padding: 0.3rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>פאזל מילים לזוהר</h1>
+    <div class="option-group">
+      <div class="option-label">בחרו אותיות:</div>
+      <div class="case-options">
+        <button class="case-btn selected" data-case="lower">abc | אותיות קטנות</button>
+        <button class="case-btn" data-case="upper">ABC | אותיות גדולות</button>
+      </div>
+    </div>
+    <div class="option-group">
+      <div class="option-label">בחרו רמת קושי:</div>
+      <div class="difficulty-options">
+        <button class="difficulty-btn selected" data-diff="easy">קל</button>
+        <button class="difficulty-btn" data-diff="medium">בינוני</button>
+        <button class="difficulty-btn" data-diff="hard">קשה</button>
+      </div>
+    </div>
+    <div class="option-group">
+      <div class="option-label">בחרו נושא:</div>
+      <div class="categories">
+        <button class="cat-btn" data-cat="המממ">המממ</button>
+        <button class="cat-btn" data-cat="🍎">🍎</button>
+        <button class="cat-btn" data-cat="🌠">🌠</button>
+        <button class="cat-btn" data-cat="ים">ים</button>
+        <button class="cat-btn" data-cat="טבע">טבע</button>
+        <button class="cat-btn" data-cat="crazy cat">crazy cat</button>
+        <button class="cat-btn" data-cat="🎂">🎂</button>
+        <button class="cat-btn" data-cat="חיות">חיות</button>
+        <button class="cat-btn" data-cat="צבעים">צבעים</button>
+        <button class="cat-btn" data-cat="מספרים">מספרים</button>
+        <button class="cat-btn" data-cat="שונות">שונות</button>
+      </div>
+    </div>
+    <button class="start-btn" onclick="startGame()">התחל משחק</button>
+  </div>
+  <script>
+    // Case selection
+    let selectedCase = 'lower';
+    document.querySelectorAll('.case-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.case-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedCase = this.dataset.case;
+      });
+    });
+    // Difficulty selection
+    let selectedDiff = 'easy';
+    document.querySelectorAll('.difficulty-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedDiff = this.dataset.diff;
+      });
+    });
+    // Category selection
+    let selectedCat = null;
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedCat = this.dataset.cat;
+      });
+    });
+    function startGame() {
+      if (!selectedCat) {
+        alert('בחרו נושא!');
+        return;
+      }
+      alert('התחלת משחק!\nאותיות: ' + (selectedCase === 'lower' ? 'קטנות' : 'גדולות') + '\nרמת קושי: ' + (selectedDiff === 'easy' ? 'קל' : selectedDiff === 'medium' ? 'בינוני' : 'קשה') + '\nנושא: ' + selectedCat);
+      // window.location.href = '/play?case=' + selectedCase + '&cat=' + encodeURIComponent(selectedCat) + '&diff=' + selectedDiff;
+    }
+  </script>
+</body>
+</html>
